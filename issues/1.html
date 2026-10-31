@@ -42,7 +42,7 @@
 </header>
 
 <main class="wrap">
-  <section class="numbers" aria-label="숫자로 보는 오늘"><div class="num"><b>2억 원</b><span>낯선 이들이 극장 직원 메리 씨에게 모아 준 마음</span></div><div class="num"><b>71%</b><span>내전 속 수단 아이들 예방접종률</span></div><div class="num"><b>7주</b><span>백화된 산호가 되살아나는 데 걸린 시간</span></div></section>
+  <section class="numbers" aria-label="숫자로 보는 오늘"><a class="num" href="#s-mary"><b>2억 원</b><span>낯선 이들이 극장 직원 메리 씨에게 모아 준 마음</span><em class="go">기사 보기 →</em></a><a class="num" href="#s-sudan"><b>71%</b><span>내전 속 수단 아이들 예방접종률</span><em class="go">기사 보기 →</em></a><a class="num" href="#s-coral"><b>7주</b><span>백화된 산호가 되살아나는 데 걸린 시간</span><em class="go">기사 보기 →</em></a></section>
   
   <section class="daily">
     <div class="lbl">오늘의 한 줄</div>
@@ -53,7 +53,7 @@
   <div class="sec-head" id="today-news">
     <h2>오늘의 머리기사<small>지금 가장 마음을 밝혀 주는 소식</small></h2>
   </div>
-  <article class="feature">
+  <article class="feature" id="s-mary">
     <div class="art" style="background:linear-gradient(135deg,#FFE0BC,#FFF6EA)" aria-hidden="true"><span class="flag">🇺🇸 미국 테네시</span>🎬</div>
     <div class="body">
       <span class="tag" style="background:var(--c-people)">사람</span>
@@ -80,7 +80,7 @@
     <div class="chips" id="chips"><button class="chip on" data-cat="all">전체</button><button class="chip" data-cat="people">사람</button><button class="chip" data-cat="animal">동물</button><button class="chip" data-cat="health">건강</button><button class="chip" data-cat="sci">과학</button><button class="chip" data-cat="earth">지구</button></div>
   </div>
   <section class="grid" id="grid">
-<article class="card" data-cat="people">
+<article class="card" id="s-phoenix" data-cat="people">
   <div class="band" style="background:linear-gradient(135deg,#FFE0BC,#FFF6EA)"><span class="flag">🇺🇸 미국 피닉스</span>🏦</div>
   <div class="body"><span class="tag" style="background:var(--c-people)">사람</span>
     <h3>폭풍 몰아치자, 은행 직원들이 노점상 손수레를 은행 안으로</h3><p>거센 바람과 우박이 피닉스를 덮친 날, 은행 직원들이 밖에서 장사하던 동네 음식 노점상의 손수레를 통째로 은행 안으로 끌어들였습니다. 노점상도 손수레도 무사했고, 이 장면을 담은 영상은 온라인에서 큰 화제가 됐습니다.</p>
@@ -90,7 +90,7 @@
       <div class="acts"><button class="btn-ic like" data-id="phoenix">♡ <span>0</span></button><button class="btn-ic share" data-t="폭풍 몰아치자, 은행 직원들이 노점상 손수레를 은행 안으로">공유</button></div></div>
   </div>
 </article>
-<article class="card" data-cat="animal">
+<article class="card" id="s-kangaroo" data-cat="animal">
   <div class="band" style="background:linear-gradient(135deg,#F2DCC2,#FBF3EA)"><span class="flag">🇦🇺 호주</span>🦘</div>
   <div class="body"><span class="tag" style="background:var(--c-animal)">동물</span>
     <h3>바다 3km 밖에서 지쳐 버린 캥거루, 어부들이 건져 올렸다</h3><p>해안에서 약 3km 떨어진 바다 한가운데서 기진맥진한 캥거루가 떠 있었습니다. 마침 근처를 지나던 어부들이 배를 세우고 캥거루를 끌어올려 무사히 구조했습니다.</p>
@@ -100,7 +100,7 @@
       <div class="acts"><button class="btn-ic like" data-id="kangaroo">♡ <span>0</span></button><button class="btn-ic share" data-t="바다 3km 밖에서 지쳐 버린 캥거루, 어부들이 건져 올렸다">공유</button></div></div>
   </div>
 </article>
-<article class="card" data-cat="health">
+<article class="card" id="s-sudan" data-cat="health">
   <div class="band" style="background:linear-gradient(135deg,#FFD0DA,#FFF0F3)"><span class="flag">🇸🇩 수단</span>💉</div>
   <div class="body"><span class="tag" style="background:var(--c-health)">건강</span>
     <h3>내전 한복판에서도… 수단 아이들 예방접종률 1년 새 39%→71%</h3><p>수년째 이어지는 내전과 인도적 위기 속에서도, 수단은 아이들의 3차 예방접종 완료율을 39%에서 71%로 끌어올렸습니다. 다섯 가지 치명적 질병을 막는 백신을 끝까지 맞은 아이들이 1년 만에 크게 늘었습니다.</p>
@@ -110,7 +110,7 @@
       <div class="acts"><button class="btn-ic like" data-id="sudan">♡ <span>0</span></button><button class="btn-ic share" data-t="내전 한복판에서도… 수단 아이들 예방접종률 1년 새 39%→71%">공유</button></div></div>
   </div>
 </article>
-<article class="card" data-cat="sci">
+<article class="card" id="s-coral" data-cat="sci">
   <div class="band" style="background:linear-gradient(135deg,#BFE3F2,#E8F6FB)"><span class="flag">🇺🇸 스탠퍼드대</span>🪸</div>
   <div class="body"><span class="tag" style="background:var(--c-sci)">과학</span>
     <h3>하얗게 죽어 가던 산호, 건강한 산호와 ‘맞닿자’ 7주 만에 살아났다</h3><p>스탠퍼드대 연구진이 백화 현상으로 색을 잃은 산호 조각을 같은 군체의 건강한 산호에 붙여 두었습니다. 맞닿은 백화 조각 다섯 개가 모두 7주 안에 색을 되찾았습니다. 건강한 산호 속 공생 조류가 상처 입은 조직으로 건너가 회복을 도운 것으로 보입니다.</p>
@@ -120,7 +120,7 @@
       <div class="acts"><button class="btn-ic like" data-id="coral">♡ <span>0</span></button><button class="btn-ic share" data-t="하얗게 죽어 가던 산호, 건강한 산호와 ‘맞닿자’ 7주 만에 살아났다">공유</button></div></div>
   </div>
 </article>
-<article class="card" data-cat="earth">
+<article class="card" id="s-amazon" data-cat="earth">
   <div class="band" style="background:linear-gradient(135deg,#C7EBCF,#EFFAEF)"><span class="flag">🇧🇷 브라질</span>🌳</div>
   <div class="body"><span class="tag" style="background:var(--c-earth)">지구</span>
     <h3>아마존 벌채, 역대 최저 수준까지 떨어졌다</h3><p>아마존 열대우림의 산림 파괴가 기록상 가장 낮은 수준으로 내려왔다는 소식이 전해졌습니다. 최근 분석에서는 그동안의 보호 노력으로 최소 2만㎢, 서울 면적의 약 33배에 이르는 숲이 사라지지 않고 지켜진 것으로 나타났습니다.</p>

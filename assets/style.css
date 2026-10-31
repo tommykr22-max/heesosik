@@ -162,3 +162,13 @@
   .sub-hero h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(28px,6vw,44px);text-align:center;margin-top:36px}
   .sub-hero p{text-align:center;opacity:.8;margin-top:8px}
   footer a{color:#fff}
+
+  /* 숫자 카드 = 버튼 */
+  a.num{display:block;text-decoration:none;color:inherit;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .15s,box-shadow .15s}
+  a.num:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(28,26,23,.14)}
+  a.num:active{transform:scale(.97)}
+  .num .go{display:inline-block;margin-top:8px;font-style:normal;font-size:12px;font-weight:700;color:var(--dawn);background:#FFF1E6;padding:3px 10px;border-radius:99px}
+  .card,.feature{scroll-margin-top:24px}
+  .card:target,.feature:target,.card.flash,.feature.flash{animation:flash 1.8s ease}
+  @keyframes flash{0%,100%{box-shadow:0 6px 20px rgba(28,26,23,.06)}20%,60%{box-shadow:0 0 0 4px var(--gold),0 16px 36px rgba(247,179,43,.35)}}
+  @media (max-width:600px){.num .go{font-size:11px;padding:2px 8px}}

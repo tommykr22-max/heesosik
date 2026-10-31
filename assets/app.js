@@ -27,6 +27,20 @@
     });
   });
 
+  // 숫자 카드 → 해당 기사로 이동 (필터가 걸려 있으면 풀고, 기사 반짝)
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest('a.num'); if (!a) return;
+    var id = a.getAttribute('href').slice(1), t = document.getElementById(id); if (!t) return;
+    ev.preventDefault();
+    if (chips) {
+      chips.querySelectorAll('.chip').forEach(function (x) { x.classList.toggle('on', x.dataset.cat === 'all'); });
+      document.querySelectorAll('#grid .card').forEach(function (c) { c.classList.remove('hide'); });
+    }
+    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    t.classList.remove('flash'); void t.offsetWidth; t.classList.add('flash');
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  });
+
   // 좋아요 (이 브라우저에만 기억)
   var likes = {};
   try { likes = JSON.parse(localStorage.getItem('hs_likes')) || {}; } catch (e) {}

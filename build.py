@@ -94,7 +94,7 @@ FOOTER = """<footer>
 
 def story_card(s):
     name, color, bg = CATS[s["cat"]]
-    return f"""<article class="card" data-cat="{e(s['cat'])}">
+    return f"""<article class="card" id="s-{e(s['id'])}" data-cat="{e(s['cat'])}">
   <div class="band" style="background:{bg}"><span class="flag">{e(s['where'])}</span>{e(s['emoji'])}</div>
   <div class="body"><span class="tag" style="background:{color}">{name}</span>
     <h3>{e(s['title'])}</h3><p>{e(s['body'])}</p>
@@ -116,7 +116,19 @@ def issue_page(iss, prev_no, next_no, is_home):
         title = "희소식 — 지칠 때 열어 보는 좋은 소식"
     desc = f"{kdate(date)} 희소식: " + " · ".join([f["title"]] + [s["title"] for s in iss["stories"][:2]])
     q = iss["daily_quote"]
-    nums = "".join(f'<div class="num"><b>{e(n["big"])}</b><span>{e(n["label"])}</span></div>' for n in iss["numbers"])
+    all_stories = [f] + iss["stories"]
+    ids = {x["id"] for x in all_stories}
+
+    def num_target(n):
+        if n.get("ref") in ids:
+            return "s-" + n["ref"]
+        for x in all_stories:  # ref 없으면 숫자가 들어 있는 기사를 찾는다
+            if n["big"] in x["title"] or n["big"] in x["body"]:
+                return "s-" + x["id"]
+        return "today-news"
+    nums = "".join(
+        f'<a class="num" href="#{num_target(n)}"><b>{e(n["big"])}</b><span>{e(n["label"])}</span><em class="go">기사 보기 →</em></a>'
+        for n in iss["numbers"])
     cats_present = []
     for s in iss["stories"]:
         if s["cat"] not in cats_present:
@@ -162,7 +174,7 @@ def issue_page(iss, prev_no, next_no, is_home):
   <div class="sec-head" id="today-news">
     <h2>오늘의 머리기사<small>지금 가장 마음을 밝혀 주는 소식</small></h2>
   </div>
-  <article class="feature">
+  <article class="feature" id="s-{e(f['id'])}">
     <div class="art" style="background:{fbg}" aria-hidden="true"><span class="flag">{e(f['where'])}</span>{e(f['emoji'])}</div>
     <div class="body">
       <span class="tag" style="background:{fcolor}">{fname}</span>
