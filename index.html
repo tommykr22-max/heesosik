@@ -4,163 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>희소식 — 지칠 때 열어 보는 좋은 소식</title>
-<meta name="description" content="전 세계의 좋은 소식만 골라 한국어로 전합니다. 언제든 4분이면 마음이 환해집니다.">
+<meta name="description" content="2026년 10월 31일 토요일 희소식: 45년 극장을 지킨 메리 씨에게, 낯선 사람들이 손을 내밀었다 · 폭풍 몰아치자, 은행 직원들이 노점상 손수레를 은행 안으로 · 바다 3km 밖에서 지쳐 버린 캥거루, 어부들이 건져 올렸다">
+<link rel="canonical" href="https://heesosik.news/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="희소식">
+<meta property="og:title" content="희소식 — 지칠 때 열어 보는 좋은 소식">
+<meta property="og:description" content="2026년 10월 31일 토요일 희소식: 45년 극장을 지킨 메리 씨에게, 낯선 사람들이 손을 내밀었다 · 폭풍 몰아치자, 은행 직원들이 노점상 손수레를 은행 안으로 · 바다 3km 밖에서 지쳐 버린 캥거루, 어부들이 건져 올렸다">
+<meta property="og:url" content="https://heesosik.news/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23F7B32B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --night:#0E1330; --night2:#1B1F4B; --dawn:#FF6B35; --gold:#F7B32B; --rose:#FF8FA3;
-    --paper:#FBF7F0; --ink:#1C1A17; --muted:#6B645B; --line:#E8E0D3; --card:#FFFFFF;
-    --c-sci:#2E86AB; --c-earth:#3A9D5D; --c-health:#D7385E; --c-people:#E07A1F; --c-space:#6C4AB6; --c-animal:#B5651D;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'Noto Sans KR',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
-  a{color:inherit}
-  .serif{font-family:'Noto Serif KR',serif}
-
-  /* ── HERO ── */
-  .hero{position:relative;overflow:hidden;color:#fff;
-    background:linear-gradient(180deg,var(--night) 0%,var(--night2) 38%,#5B2A5E 64%,#C2464A 84%,var(--dawn) 100%);
-    padding:28px 22px 0;min-height:560px;display:flex;flex-direction:column}
-  .stars{position:absolute;inset:0;pointer-events:none}
-  .star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.7;animation:tw 3s ease-in-out infinite}
-  @keyframes tw{0%,100%{opacity:.15}50%{opacity:.9}}
-  .topbar{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;max-width:1120px;margin:0 auto;width:100%}
-  .logo{font-family:'Noto Serif KR',serif;font-weight:900;font-size:22px;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
-  .logo i{display:inline-block;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#FFE29A,var(--gold) 60%,var(--dawn));box-shadow:0 0 14px var(--gold)}
-  .issue{font-size:12px;opacity:.8;letter-spacing:.5px;border:1px solid rgba(255,255,255,.3);padding:4px 10px;border-radius:99px}
-  .hero-inner{position:relative;z-index:2;max-width:1120px;margin:auto;width:100%;padding:56px 0 150px;text-align:center}
-  .kicker{font-size:13px;letter-spacing:4px;color:var(--gold);font-weight:700;margin-bottom:14px}
-  .hero h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(40px,9vw,88px);line-height:1.15;letter-spacing:-2px}
-  .hero h1 em{font-style:normal;background:linear-gradient(90deg,#FFE29A,var(--gold),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero p.lead{margin:20px auto 0;max-width:520px;font-size:clamp(15px,2.4vw,18px);opacity:.88}
-  .date{margin-top:26px;font-size:14px;opacity:.75}
-  .cta{display:inline-flex;align-items:center;gap:8px;margin-top:28px;background:#fff;color:var(--night);font-weight:700;padding:14px 26px;border-radius:99px;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:transform .2s}
-  .cta:hover{transform:translateY(-2px)}
-  .sun{position:absolute;left:50%;bottom:-170px;transform:translateX(-50%);width:340px;height:340px;border-radius:50%;
-    background:radial-gradient(circle,#FFF4D6 0%,#FFD36B 35%,var(--gold) 55%,rgba(255,107,53,.0) 72%);
-    animation:rise 4s cubic-bezier(.2,.7,.2,1) both, glow 6s ease-in-out 4s infinite;z-index:1}
-  @keyframes rise{from{bottom:-340px;opacity:.3}to{bottom:-170px;opacity:1}}
-  @keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
-  .horizon{position:absolute;left:0;right:0;bottom:0;height:60px;background:linear-gradient(180deg,rgba(251,247,240,0),var(--paper));z-index:1}
-
-  /* ── NUMBERS ── */
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-  .numbers{position:relative;z-index:3;margin-top:-70px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .num{background:var(--card);border-radius:18px;padding:20px 16px;box-shadow:0 12px 32px rgba(28,26,23,.08);text-align:center}
-  .num b{display:block;font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(28px,6vw,44px);line-height:1.1;
-    background:linear-gradient(135deg,var(--dawn),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .num span{display:block;margin-top:6px;font-size:13px;color:var(--muted);line-height:1.45}
-
-  /* ── SECTION HEAD ── */
-  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;margin:64px 0 20px}
-  .sec-head h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(24px,4vw,32px);letter-spacing:-.5px}
-  .sec-head small{display:block;font-size:14px;color:var(--muted);font-family:'Noto Sans KR';font-weight:400;margin-top:2px}
-  .chips{display:flex;gap:8px;flex-wrap:wrap}
-  .chip{border:1px solid var(--line);background:#fff;padding:7px 14px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;color:var(--ink);transition:all .15s}
-  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-  /* ── FEATURE ── */
-  .feature{display:grid;grid-template-columns:1.1fr 1fr;border-radius:24px;overflow:hidden;background:var(--card);box-shadow:0 16px 40px rgba(28,26,23,.08)}
-  .feature .art{min-height:320px;position:relative;background:linear-gradient(160deg,#0B4F6C 0%,#20A39E 55%,#FFD36B 120%);overflow:hidden}
-  .feature .art svg{position:absolute;inset:0;width:100%;height:100%}
-  .feature .body{padding:34px 32px}
-  .feature h3{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(22px,3.4vw,32px);line-height:1.35;letter-spacing:-.5px;margin:12px 0 14px}
-  .feature p{color:#3d3832;font-size:16px}
-
-  /* ── GRID ── */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-  .card{background:var(--card);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 20px rgba(28,26,23,.06);transition:transform .25s, box-shadow .25s;opacity:0;transform:translateY(16px)}
-  .card.show{opacity:1;transform:none}
-  .card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(28,26,23,.12)}
-  .card .band{height:120px;position:relative;display:flex;align-items:center;justify-content:center;font-size:54px}
-  .card .band .flag{position:absolute;top:12px;right:12px;font-size:12px;background:rgba(255,255,255,.9);padding:3px 10px;border-radius:99px;color:var(--ink);font-weight:500}
-  .card .body{padding:20px 20px 18px;display:flex;flex-direction:column;flex:1}
-  .card h3{font-family:'Noto Serif KR',serif;font-weight:700;font-size:19px;line-height:1.45;letter-spacing:-.3px;margin:10px 0 10px}
-  .card p{font-size:15px;color:#3d3832}
-  .tag{align-self:flex-start;display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;color:#fff;letter-spacing:.3px}
-  .why{margin-top:14px;padding:12px 14px;background:#FFF6E5;border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:14px;color:#5a4a2c}
-  .why b{color:var(--dawn)}
-  .foot{margin-top:auto;padding-top:16px;display:flex;gap:10px;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
-  .foot a{text-decoration:none;border-bottom:1px solid var(--line)}
-  .foot a:hover{color:var(--dawn);border-color:var(--dawn)}
-  .acts{display:flex;gap:6px}
-  .btn-ic{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 11px;font-size:13px;cursor:pointer;font-family:inherit;color:var(--ink);display:flex;align-items:center;gap:4px;white-space:nowrap}
-  .btn-ic.liked{background:#FFE8EC;border-color:var(--rose);color:#C0284B}
-
-  .quote{margin-top:14px;font-family:'Noto Serif KR',serif;font-size:15px;line-height:1.6;color:var(--night2);padding-top:14px;border-top:1px dashed var(--line)}
-  .quote::before{content:'“';color:var(--dawn);font-size:22px;font-weight:900;margin-right:2px;vertical-align:-3px}
-  .quote cite{display:block;font-style:normal;font-family:'Noto Sans KR';font-size:12px;color:var(--muted);margin-top:2px}
-  .daily{margin-top:56px;text-align:center;padding:48px 24px;border-radius:24px;position:relative;overflow:hidden;
-    background:radial-gradient(circle at 50% 120%,#FFD36B55,transparent 60%),linear-gradient(180deg,#FFFDF8,#FFF3E2)}
-  .daily .lbl{font-size:12px;letter-spacing:4px;color:var(--dawn);font-weight:700}
-  .daily blockquote{font-family:'Noto Serif KR',serif;font-weight:700;font-size:clamp(20px,3.6vw,30px);line-height:1.6;max-width:760px;margin:16px auto 0;letter-spacing:-.3px}
-  .daily blockquote mark{background:linear-gradient(transparent 60%,#FFD36B88 60%);color:inherit}
-  .daily cite{display:block;margin-top:16px;font-style:normal;color:var(--muted);font-size:14px}
-
-  /* ── AD / SPONSOR ── */
-  .ad{margin:40px 0;border:1px dashed #D5CBBB;border-radius:14px;padding:22px;text-align:center;color:#A39A8C;font-size:13px;background:repeating-linear-gradient(45deg,#FBF7F0,#FBF7F0 10px,#F6F0E5 10px,#F6F0E5 20px)}
-  .sponsor{margin:56px 0 0;border-radius:24px;padding:36px 30px;background:linear-gradient(135deg,var(--night),#3A2A6B);color:#fff;display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:center}
-  .sponsor h3{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.4vw,28px);font-weight:900;line-height:1.35}
-  .sponsor p{opacity:.8;margin-top:10px;font-size:15px}
-  .sponsor .box{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:20px;font-size:14px}
-  .sponsor .box li{list-style:none;padding:5px 0;display:flex;gap:8px}
-  .sponsor .box li::before{content:'☀';color:var(--gold)}
-  .sponsor .contact{margin-top:12px;font-weight:700;color:var(--gold)}
-
-  /* ── NEWSLETTER ── */
-  .news{margin:56px 0;text-align:center;padding:44px 24px;border-radius:24px;background:linear-gradient(180deg,#FFF1DC,#FFE2C6)}
-  .news h3{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.6vw,30px);font-weight:900}
-  .news p{color:#6b4a2b;margin-top:8px}
-  .news form{display:flex;gap:8px;max-width:440px;margin:22px auto 0}
-  .news input{flex:1;padding:14px 18px;border-radius:99px;border:1px solid #F0C9A0;font-size:15px;font-family:inherit;outline:none;background:#fff}
-  .news input:focus{border-color:var(--dawn)}
-  .news button{padding:14px 22px;border-radius:99px;border:0;background:var(--dawn);color:#fff;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit}
-  .news .msg{margin-top:12px;font-size:14px;color:#8a4a1c;min-height:20px}
-
-  footer{background:var(--night);color:rgba(255,255,255,.7);padding:44px 20px;font-size:13px;line-height:1.8}
-  footer .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:28px}
-  footer .logo{color:#fff;margin-bottom:10px}
-  footer h4{color:#fff;font-size:14px;margin-bottom:6px}
-
-  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:99px;font-size:14px;transition:transform .3s,opacity .3s;z-index:50;opacity:0;pointer-events:none}
-  .toast.on{transform:translateX(-50%) translateY(0);opacity:1}
-
-  @media (max-width:900px){
-    .grid{grid-template-columns:repeat(2,1fr)}
-    .feature{grid-template-columns:1fr}
-    .feature .art{min-height:220px}
-    .sponsor{grid-template-columns:1fr}
-  }
-  @media (max-width:600px){
-    .hero{min-height:520px;padding:22px 18px 0}
-    .hero-inner{padding:44px 0 130px}
-    .grid{grid-template-columns:1fr}
-    .numbers{gap:8px}
-    .num{padding:16px 8px;border-radius:14px}
-    .num span{font-size:12px}
-    .feature .body{padding:24px 20px}
-    .news form{flex-direction:column}
-    footer .wrap{grid-template-columns:1fr}
-  }
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.card{opacity:1;transform:none}}
-</style>
+<link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 
 <header class="hero">
   <div class="stars" id="stars"></div>
   <div class="topbar">
-    <div class="logo"><i></i>희소식</div>
-    <div class="issue" id="issue">제1호</div>
+    <a class="logo" href="/" style="text-decoration:none"><i></i>희소식</a>
+    <div class="issue"><a href="/archive.html">제1호</a></div>
   </div>
   <div class="hero-inner">
     <div class="kicker">GOOD NEWS · DAILY</div>
     <h1>세상은 생각보다<br><em>괜찮습니다</em></h1>
     <p class="lead">나쁜 뉴스에 지친 당신을 위해, 전 세계의 좋은 소식만 골라 매일 한국어로 전합니다. 지칠 때 언제든 열어 보세요.</p>
-    <div class="date" id="today">2026년 10월 30일 금요일</div>
+    <div class="date">2026년 10월 31일 토요일 · 제1호</div>
     <a href="#today-news" class="cta">오늘의 희소식 보기 ↓</a>
   </div>
   <div class="sun"></div>
@@ -168,65 +37,97 @@
 </header>
 
 <main class="wrap">
-  <section class="numbers" aria-label="숫자로 보는 오늘">
-    <div class="num"><b>7주</b><span>백화된 산호가<br>되살아나는 데 걸린 시간</span></div>
-    <div class="num"><b>71%</b><span>내전 속 수단 아이들<br>예방접종률</span></div>
-    <div class="num"><b>49%</b><span>휘발유차 판매 비중,<br>사상 첫 절반 아래</span></div>
-  </section>
-
+  <section class="numbers" aria-label="숫자로 보는 오늘"><div class="num"><b>2억 원</b><span>낯선 이들이 극장 직원 메리 씨에게 모아 준 마음</span></div><div class="num"><b>71%</b><span>내전 속 수단 아이들 예방접종률</span></div><div class="num"><b>7주</b><span>백화된 산호가 되살아나는 데 걸린 시간</span></div></section>
+  
   <section class="daily">
     <div class="lbl">오늘의 한 줄</div>
-    <blockquote>비관론자가 별의 비밀을 밝혀내거나, 지도에 없는 땅으로 항해한 적은 <mark>한 번도 없다</mark>.</blockquote>
+    <blockquote>비관론자가 별의 비밀을 밝혀내거나, 지도에 없는 땅으로 항해한 적은 한 번도 없다.</blockquote>
     <cite>— 헬렌 켈러, 『낙관주의』(1903)</cite>
   </section>
 
   <div class="sec-head" id="today-news">
     <h2>오늘의 머리기사<small>지금 가장 마음을 밝혀 주는 소식</small></h2>
   </div>
-
   <article class="feature">
-    <div class="art" aria-hidden="true">
-      <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <radialGradient id="lg" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-        </defs>
-        <rect width="600" height="400" fill="url(#lg)"/>
-        <g opacity=".95">
-          <path d="M120 400 C120 330 90 300 100 250 M120 330 C150 300 170 290 165 250 M110 300 C80 280 70 260 75 230" stroke="#FF8FA3" stroke-width="14" fill="none" stroke-linecap="round"/>
-          <path d="M300 400 C300 320 270 280 285 220 M300 320 C340 290 355 260 350 215 M290 280 C250 260 245 230 250 200" stroke="#FFD36B" stroke-width="16" fill="none" stroke-linecap="round"/>
-          <path d="M470 400 C470 340 450 310 460 270 M470 340 C500 315 510 290 505 255" stroke="#F0EDE6" stroke-width="13" fill="none" stroke-linecap="round" opacity=".75"/>
-          <path d="M470 340 C500 315 510 290 505 255" stroke="#FF8FA3" stroke-width="13" fill="none" stroke-linecap="round" stroke-dasharray="120" stroke-dashoffset="120">
-            <animate attributeName="stroke-dashoffset" from="120" to="0" dur="3s" begin="1s" fill="freeze"/>
-          </path>
-        </g>
-        <g fill="#fff" opacity=".5">
-          <circle cx="200" cy="120" r="5"><animate attributeName="cy" values="140;60" dur="6s" repeatCount="indefinite"/></circle>
-          <circle cx="380" cy="160" r="4"><animate attributeName="cy" values="180;80" dur="7s" repeatCount="indefinite"/></circle>
-          <circle cx="520" cy="100" r="3"><animate attributeName="cy" values="130;40" dur="5s" repeatCount="indefinite"/></circle>
-        </g>
-      </svg>
-    </div>
+    <div class="art" style="background:linear-gradient(135deg,#FFE0BC,#FFF6EA)" aria-hidden="true"><span class="flag">🇺🇸 미국 테네시</span>🎬</div>
     <div class="body">
-      <span class="tag" style="background:var(--c-sci)">과학 · 바다</span>
-      <h3>하얗게 죽어 가던 산호, 건강한 산호와 ‘맞닿자’ 7주 만에 살아났다</h3>
-      <p>미국 스탠퍼드대 연구진이 백화 현상으로 색을 잃은 산호 조각을 같은 군체의 건강한 산호에 직접 붙여 두었습니다. 그러자 맞닿은 백화 조각 다섯 개가 모두 7주 안에 색을 되찾았습니다. 건강한 산호 속 공생 조류가 상처 입은 조직으로 건너가 회복을 도운 것으로 보입니다.</p>
-      <div class="why"><b>왜 희소식일까?</b> 비싼 장비 없이 ‘이웃 산호끼리 이어 주기’만으로 산호초를 되살릴 길이 열릴 수 있습니다.</div>
-      <div class="quote">전체는 부분의 합보다 크다.<cite>— 아리스토텔레스</cite></div>
+      <span class="tag" style="background:var(--c-people)">사람</span>
+      <h3>45년 극장을 지킨 메리 씨에게, 낯선 사람들이 손을 내밀었다</h3>
+      <p>테네시의 한 영화관에서 45년 넘게 일해 온 메리 씨. 그의 사정을 알게 된 21살 청년 브루클린 그린 씨가 ‘한 달 치 월세만이라도 돕자’며 작은 모금을 열었습니다. 사연은 빠르게 퍼졌고, 얼굴 한 번 본 적 없는 사람들이 보낸 돈은 14만 6천 달러, 우리 돈 약 2억 원에 이르렀습니다.</p>
+      <div class="why"><b>왜 희소식일까?</b> 한 사람의 작은 관심이 수천 명의 친절로 번졌습니다. 누군가의 반평생을 세상이 알아봐 준 순간입니다.</div>
+      <div class="quote">덕은 외롭지 않으니, 반드시 이웃이 있다.<cite>— 공자, 『논어』</cite></div>
       <div class="foot">
-        <a href="https://www.goodgoodgood.co/articles/good-news-this-week-october-24-2026" target="_blank" rel="noopener">출처: Good Good Good ↗</a>
-        <div class="acts"><button class="btn-ic like" data-id="coral">♡ <span>0</span></button><button class="btn-ic share" data-t="하얗게 죽어 가던 산호, 7주 만에 살아났다">공유</button></div>
+        <a href="https://www.globalpositivenewsnetwork.com/good-news-this-week-october-25th/" target="_blank" rel="noopener">출처: Global Positive News Network ↗</a>
+        <div class="acts"><button class="btn-ic like" data-id="mary">♡ <span>0</span></button><button class="btn-ic share" data-t="45년 극장을 지킨 메리 씨에게, 낯선 사람들이 손을 내밀었다">공유</button></div>
       </div>
     </div>
   </article>
+
+  <div class="sharecard">
+    <button id="saveCard">💬 오늘의 희소식 이미지 저장</button>
+    <small>단톡방에 좋은 소식 한 장 보내 보세요</small>
+  </div>
 
   <div class="ad">광고 영역 · 애드센스 승인 후 노출됩니다</div>
 
   <div class="sec-head">
     <h2>세계 곳곳의 희소식<small>분야별로 골라 읽으세요</small></h2>
-    <div class="chips" id="chips"></div>
+    <div class="chips" id="chips"><button class="chip on" data-cat="all">전체</button><button class="chip" data-cat="people">사람</button><button class="chip" data-cat="animal">동물</button><button class="chip" data-cat="health">건강</button><button class="chip" data-cat="sci">과학</button><button class="chip" data-cat="earth">지구</button></div>
   </div>
+  <section class="grid" id="grid">
+<article class="card" data-cat="people">
+  <div class="band" style="background:linear-gradient(135deg,#FFE0BC,#FFF6EA)"><span class="flag">🇺🇸 미국 피닉스</span>🏦</div>
+  <div class="body"><span class="tag" style="background:var(--c-people)">사람</span>
+    <h3>폭풍 몰아치자, 은행 직원들이 노점상 손수레를 은행 안으로</h3><p>거센 바람과 우박이 피닉스를 덮친 날, 은행 직원들이 밖에서 장사하던 동네 음식 노점상의 손수레를 통째로 은행 안으로 끌어들였습니다. 노점상도 손수레도 무사했고, 이 장면을 담은 영상은 온라인에서 큰 화제가 됐습니다.</p>
+    <div class="why"><b>왜 희소식일까?</b> 이웃을 지키는 데 거창한 이유는 필요 없습니다.</div>
+    <div class="quote">친절은 아무리 작아도 결코 헛되지 않다.<cite>— 이솝 우화</cite></div>
+    <div class="foot"><a href="https://www.sunnyskyz.com/good-news" target="_blank" rel="noopener">출처: Sunny Skyz ↗</a>
+      <div class="acts"><button class="btn-ic like" data-id="phoenix">♡ <span>0</span></button><button class="btn-ic share" data-t="폭풍 몰아치자, 은행 직원들이 노점상 손수레를 은행 안으로">공유</button></div></div>
+  </div>
+</article>
+<article class="card" data-cat="animal">
+  <div class="band" style="background:linear-gradient(135deg,#F2DCC2,#FBF3EA)"><span class="flag">🇦🇺 호주</span>🦘</div>
+  <div class="body"><span class="tag" style="background:var(--c-animal)">동물</span>
+    <h3>바다 3km 밖에서 지쳐 버린 캥거루, 어부들이 건져 올렸다</h3><p>해안에서 약 3km 떨어진 바다 한가운데서 기진맥진한 캥거루가 떠 있었습니다. 마침 근처를 지나던 어부들이 배를 세우고 캥거루를 끌어올려 무사히 구조했습니다.</p>
+    <div class="why"><b>왜 희소식일까?</b> 생명을 그냥 지나치지 않는 마음은 종(種)을 가리지 않습니다.</div>
+    <div class="quote">가엾게 여기는 마음은 어짊의 시작이다.<cite>— 맹자</cite></div>
+    <div class="foot"><a href="https://www.sunnyskyz.com/good-news" target="_blank" rel="noopener">출처: Sunny Skyz ↗</a>
+      <div class="acts"><button class="btn-ic like" data-id="kangaroo">♡ <span>0</span></button><button class="btn-ic share" data-t="바다 3km 밖에서 지쳐 버린 캥거루, 어부들이 건져 올렸다">공유</button></div></div>
+  </div>
+</article>
+<article class="card" data-cat="health">
+  <div class="band" style="background:linear-gradient(135deg,#FFD0DA,#FFF0F3)"><span class="flag">🇸🇩 수단</span>💉</div>
+  <div class="body"><span class="tag" style="background:var(--c-health)">건강</span>
+    <h3>내전 한복판에서도… 수단 아이들 예방접종률 1년 새 39%→71%</h3><p>수년째 이어지는 내전과 인도적 위기 속에서도, 수단은 아이들의 3차 예방접종 완료율을 39%에서 71%로 끌어올렸습니다. 다섯 가지 치명적 질병을 막는 백신을 끝까지 맞은 아이들이 1년 만에 크게 늘었습니다.</p>
+    <div class="why"><b>왜 희소식일까?</b> 가장 어려운 곳에서도 아이들을 지키는 일은 멈추지 않았습니다.</div>
+    <div class="quote">천 리 길도 한 걸음부터 시작된다.<cite>— 노자, 『도덕경』</cite></div>
+    <div class="foot"><a href="https://www.goodgoodgood.co/articles/good-news-this-week-october-24-2026" target="_blank" rel="noopener">출처: Good Good Good ↗</a>
+      <div class="acts"><button class="btn-ic like" data-id="sudan">♡ <span>0</span></button><button class="btn-ic share" data-t="내전 한복판에서도… 수단 아이들 예방접종률 1년 새 39%→71%">공유</button></div></div>
+  </div>
+</article>
+<article class="card" data-cat="sci">
+  <div class="band" style="background:linear-gradient(135deg,#BFE3F2,#E8F6FB)"><span class="flag">🇺🇸 스탠퍼드대</span>🪸</div>
+  <div class="body"><span class="tag" style="background:var(--c-sci)">과학</span>
+    <h3>하얗게 죽어 가던 산호, 건강한 산호와 ‘맞닿자’ 7주 만에 살아났다</h3><p>스탠퍼드대 연구진이 백화 현상으로 색을 잃은 산호 조각을 같은 군체의 건강한 산호에 붙여 두었습니다. 맞닿은 백화 조각 다섯 개가 모두 7주 안에 색을 되찾았습니다. 건강한 산호 속 공생 조류가 상처 입은 조직으로 건너가 회복을 도운 것으로 보입니다.</p>
+    <div class="why"><b>왜 희소식일까?</b> ‘이웃끼리 이어 주기’만으로 산호초를 되살릴 길이 열릴 수 있습니다.</div>
+    <div class="quote">전체는 부분의 합보다 크다.<cite>— 아리스토텔레스</cite></div>
+    <div class="foot"><a href="https://www.goodgoodgood.co/articles/good-news-this-week-october-24-2026" target="_blank" rel="noopener">출처: Good Good Good ↗</a>
+      <div class="acts"><button class="btn-ic like" data-id="coral">♡ <span>0</span></button><button class="btn-ic share" data-t="하얗게 죽어 가던 산호, 건강한 산호와 ‘맞닿자’ 7주 만에 살아났다">공유</button></div></div>
+  </div>
+</article>
+<article class="card" data-cat="earth">
+  <div class="band" style="background:linear-gradient(135deg,#C7EBCF,#EFFAEF)"><span class="flag">🇧🇷 브라질</span>🌳</div>
+  <div class="body"><span class="tag" style="background:var(--c-earth)">지구</span>
+    <h3>아마존 벌채, 역대 최저 수준까지 떨어졌다</h3><p>아마존 열대우림의 산림 파괴가 기록상 가장 낮은 수준으로 내려왔다는 소식이 전해졌습니다. 최근 분석에서는 그동안의 보호 노력으로 최소 2만㎢, 서울 면적의 약 33배에 이르는 숲이 사라지지 않고 지켜진 것으로 나타났습니다.</p>
+    <div class="why"><b>왜 희소식일까?</b> 꾸준한 노력이 지구의 허파를 실제로 지켜 내고 있습니다.</div>
+    <div class="quote">야생 속에 세상의 보존이 있다.<cite>— 헨리 데이비드 소로</cite></div>
+    <div class="foot"><a href="https://goodnews.eu/en/" target="_blank" rel="noopener">출처: Good News ↗</a>
+      <div class="acts"><button class="btn-ic like" data-id="amazon">♡ <span>0</span></button><button class="btn-ic share" data-t="아마존 벌채, 역대 최저 수준까지 떨어졌다">공유</button></div></div>
+  </div>
+</article>
+  </section>
 
-  <section class="grid" id="grid"></section>
+  <nav class="pager"><span></span><a class="next" href="/archive.html">지난 호 모아 보기 →</a></nav>
 
   <section class="sponsor">
     <div>
@@ -237,9 +138,9 @@
       <ul>
         <li>하루 한 곳, 머리기사 후원 표기</li>
         <li>뉴스레터 상단 ‘오늘의 후원’ 소개</li>
-        <li>쇼츠 영상 엔딩 크레딧</li>
+        <li>지난 호 보관함 상단 배너</li>
       </ul>
-      <div class="contact">후원 문의: hello@heesosik.kr (예정)</div>
+      <div class="contact">후원·제휴 문의: 준비 중</div>
     </div>
   </section>
 
@@ -250,13 +151,13 @@
     <div class="msg" id="nlmsg"></div>
   </section>
 </main>
-
 <footer>
   <div class="wrap">
     <div>
       <div class="logo"><i></i>희소식</div>
       지칠 때 열어 보는 좋은 소식.<br>
-      모든 기사는 원문을 바탕으로 희소식이 직접 요약해 쓴 글이며, 원문 출처를 함께 밝힙니다.
+      모든 기사는 원문을 바탕으로 희소식이 직접 요약해 쓴 글이며, 원문 출처를 함께 밝힙니다.<br>
+      <a href="/archive.html">지난 호 모아 보기</a>
     </div>
     <div>
       <h4>편집 원칙</h4>
@@ -264,119 +165,10 @@
     </div>
   </div>
 </footer>
-
 <div class="toast" id="toast"></div>
 
-<script>
-const CATS = {
-  sci:{name:'과학',color:'var(--c-sci)',bg:'linear-gradient(135deg,#BFE3F2,#E8F6FB)'},
-  earth:{name:'지구',color:'var(--c-earth)',bg:'linear-gradient(135deg,#C7EBCF,#EFFAEF)'},
-  health:{name:'건강',color:'var(--c-health)',bg:'linear-gradient(135deg,#FFD0DA,#FFF0F3)'},
-  people:{name:'사람',color:'var(--c-people)',bg:'linear-gradient(135deg,#FFE0BC,#FFF6EA)'},
-  space:{name:'우주',color:'var(--c-space)',bg:'linear-gradient(135deg,#D9CCF5,#F3EEFD)'},
-  animal:{name:'동물',color:'var(--c-animal)',bg:'linear-gradient(135deg,#F2DCC2,#FBF3EA)'}
-};
-
-// 매일 이 배열만 바꾸면 사이트가 갱신됩니다 (자동화 시 news.json 으로 분리 예정)
-const NEWS = [
-  {id:'sudan',quote:'천 리 길도 한 걸음부터 시작된다.',who:'노자, 『도덕경』',cat:'health',emoji:'💉',where:'🇸🇩 수단',
-   title:'내전 한복판에서도… 수단 아이들 예방접종률 1년 새 39%→71%',
-   body:'수년째 이어지는 내전과 인도적 위기 속에서도 수단은 3차 예방접종 완료율을 39%에서 71%로 끌어올렸습니다. 다섯 가지 치명적 질병을 막는 백신을 끝까지 맞은 아이들이 1년 만에 크게 늘었습니다.',
-   why:'가장 어려운 곳에서도 사람을 지키는 일은 멈추지 않는다는 증거입니다.',
-   src:'Good Good Good',url:'https://www.goodgoodgood.co/articles/good-news-this-week-october-24-2026'},
-  {id:'amazon',quote:'야생 속에 세상의 보존이 있다.',who:'헨리 데이비드 소로',cat:'earth',emoji:'🌳',where:'🇧🇷 브라질',
-   title:'아마존 벌채, 역대 최저 수준까지 떨어졌다',
-   body:'아마존 열대우림의 산림 파괴가 기록상 가장 낮은 수준으로 내려왔다는 소식이 전해졌습니다. 최근 분석에서는 그동안의 보호 정책으로 최소 2만㎢, 서울 면적의 약 33배에 이르는 숲이 사라지지 않고 지켜진 것으로 나타났습니다.',
-   why:'꾸준한 단속과 투자가 지구의 허파를 실제로 지켜 내고 있습니다.',
-   src:'Good News',url:'https://goodnews.eu/en/'},
-  {id:'phoenix',quote:'친절은 아무리 작아도 결코 헛되지 않다.',who:'이솝 우화',cat:'people',emoji:'🏦',where:'🇺🇸 미국 피닉스',
-   title:'폭풍 몰아치자 은행 직원들이 노점상 손수레를 은행 안으로',
-   body:'거센 바람과 우박을 동반한 폭풍이 피닉스를 덮치자, 은행 직원들이 밖에서 장사하던 동네 음식 노점상을 돕기 위해 그의 손수레를 통째로 은행 안으로 들여놓았습니다. 이 장면을 담은 영상은 온라인에서 큰 화제가 됐습니다.',
-   why:'이웃을 지키는 데 거창한 이유는 필요 없습니다.',
-   src:'Sunny Skyz',url:'https://www.sunnyskyz.com/good-news'},
-  {id:'sentinel',quote:'우리는 모두 시궁창에 있지만, 그중 누군가는 별을 바라보고 있다.',who:'오스카 와일드',cat:'space',emoji:'🛰️',where:'🇪🇺 유럽',
-   title:'유럽 새 위성 ‘센티넬-3C’, 첫 지구 사진 보내왔다',
-   body:'유럽의 지구 관측 위성 코페르니쿠스 센티넬-3C가 첫 영상을 지구로 보내왔습니다. 이 위성은 바다 상태, 식생, 산불, 극지방 얼음의 변화를 추적해 과학자들에게 귀중한 자료를 제공하게 됩니다.',
-   why:'지구의 변화를 더 정확히 알수록 더 빨리 대응할 수 있습니다.',
-   src:'Global Positive News Network',url:'https://www.globalpositivenewsnetwork.com/good-news-this-week-october-25th/'},
-  {id:'mary',quote:'덕은 외롭지 않으니, 반드시 이웃이 있다.',who:'공자, 『논어』',cat:'people',emoji:'🎬',where:'🇺🇸 미국 테네시',
-   title:'45년 극장 지킨 직원 위한 ‘한 달 월세’ 모금, 2억 원으로 불어나',
-   body:'21살 청년이 45년 넘게 극장에서 일해 온 메리 씨의 사연을 알고 한 달 치 월세를 돕자며 모금을 열었습니다. 사연이 퍼지자 낯선 사람들이 모은 돈은 14만 6천 달러(약 2억 원)에 이르렀습니다.',
-   why:'한 사람의 작은 관심이 수천 명의 친절로 번졌습니다.',
-   src:'Global Positive News Network',url:'https://www.globalpositivenewsnetwork.com/good-news-this-week-october-25th/'},
-  {id:'ev',quote:'같은 강물에 두 번 발을 담글 수는 없다.',who:'헤라클레이토스',cat:'earth',emoji:'🚗',where:'🌍 전 세계',
-   title:'휘발유차 판매 비중, 사상 처음 절반 아래로',
-   body:'2026년 상반기 전 세계 신차 판매에서 휘발유만 쓰는 차량의 비중이 49%로 떨어졌습니다. 2021년 73%였던 것과 비교하면 큰 변화로, 기록상 처음으로 절반 아래로 내려간 것입니다.',
-   why:'자동차의 세대교체가 숫자로 확인되기 시작했습니다.',
-   src:'Good Good Good',url:'https://www.goodgoodgood.co/articles/good-news-this-week-october-17-2026'},
-  {id:'kangaroo',quote:'가엾게 여기는 마음은 어짊의 시작이다.',who:'맹자',cat:'animal',emoji:'🦘',where:'🇦🇺 호주',
-   title:'바다 3km 밖에서 지친 캥거루, 어부들이 건져 올렸다',
-   body:'해안에서 약 3km 떨어진 바다에서 기진맥진한 캥거루가 발견됐습니다. 마침 근처를 지나던 어부들이 캥거루를 배 위로 끌어올려 무사히 구조했습니다.',
-   why:'생명을 그냥 지나치지 않는 마음은 국경도 종(種)도 넘습니다.',
-   src:'Sunny Skyz',url:'https://www.sunnyskyz.com/good-news'},
-  {id:'coralsci',quote:'삶에서 두려워할 것은 없다. 이해해야 할 것이 있을 뿐이다.',who:'마리 퀴리',cat:'sci',emoji:'🧪',where:'🔬 연구',
-   title:'항암화학요법 없이 백혈병 치료… 더 나은 결과 나왔다',
-   body:'특정 유형의 백혈병 환자 236명을 대상으로 한 무작위 임상시험에서, 표적치료와 면역치료를 함께 쓴 쪽이 기존 화학요법을 쓴 쪽보다 더 좋은 결과를 보였습니다.',
-   why:'환자가 견뎌야 하는 고통을 줄이는 치료의 길이 넓어지고 있습니다.',
-   src:'Everything Science',url:'https://everythingscience.substack.com/p/positive-science-news-october-12-18-2026'}
-];
-
-// stars
-const st=document.getElementById('stars');
-for(let i=0;i<60;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*55+'%';s.style.animationDelay=(Math.random()*3)+'s';s.style.transform='scale('+(0.5+Math.random())+')';st.appendChild(s)}
-
-// date & issue
-const d=new Date(), days=['일','월','화','수','목','금','토'];
-document.getElementById('today').textContent=`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${days[d.getDay()]}요일`;
-
-// storage
-const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let likes=store.get('hs_likes')||{};
-
-function render(filter){
-  const g=document.getElementById('grid');g.innerHTML='';
-  NEWS.filter(n=>filter==='all'||n.cat===filter).forEach((n,i)=>{
-    const c=CATS[n.cat];
-    const el=document.createElement('article');el.className='card';
-    el.innerHTML=`<div class="band" style="background:${c.bg}"><span class="flag">${n.where}</span>${n.emoji}</div>
-      <div class="body"><span class="tag" style="background:${c.color}">${c.name}</span>
-      <h3>${n.title}</h3><p>${n.body}</p>
-      <div class="why"><b>왜 희소식일까?</b> ${n.why}</div>
-      <div class="quote">${n.quote}<cite>— ${n.who}</cite></div>
-      <div class="foot"><a href="${n.url}" target="_blank" rel="noopener">출처: ${n.src} ↗</a>
-      <div class="acts"><button class="btn-ic like" data-id="${n.id}">♡ <span>0</span></button><button class="btn-ic share" data-t="${n.title}">공유</button></div></div></div>`;
-    g.appendChild(el);
-    setTimeout(()=>el.classList.add('show'),60*i);
-  });
-  bind();
-}
-
-function bind(){
-  document.querySelectorAll('.like').forEach(b=>{
-    const id=b.dataset.id;const on=!!likes[id];
-    b.classList.toggle('liked',on);b.firstChild.textContent=on?'♥ ':'♡ ';b.querySelector('span').textContent=on?1:0;
-    b.onclick=()=>{likes[id]=!likes[id];store.set('hs_likes',likes);bind()};
-  });
-  document.querySelectorAll('.share').forEach(b=>{
-    b.onclick=async()=>{const t=`[희소식] ${b.dataset.t}`;
-      try{await navigator.clipboard.writeText(t);toast('제목을 복사했어요. 친구에게 붙여 넣어 보세요')}catch(e){toast('복사가 지원되지 않는 환경이에요')}};
-  });
-}
-
-// chips
-const chips=document.getElementById('chips');
-[['all','전체'],...Object.entries(CATS).map(([k,v])=>[k,v.name])].forEach(([k,name],i)=>{
-  if(k!=='all'&&!NEWS.some(n=>n.cat===k))return;
-  const b=document.createElement('button');b.className='chip'+(i===0?' on':'');b.textContent=name;
-  b.onclick=()=>{chips.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(k)};
-  chips.appendChild(b);
-});
-
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2200)}
-
-document.getElementById('nl').addEventListener('submit',e=>{e.preventDefault();document.getElementById('nlmsg').textContent='뉴스레터는 곧 열립니다. 정식 오픈 때 다시 찾아 주세요 ☀'});
-
-render('all');
-</script>
+<canvas id="cv" width="1080" height="1350" style="display:none"></canvas>
+<script id="card-data" type="application/json">{"no": 1, "date": "2026년 10월 31일 토요일", "title": "45년 극장을 지킨 메리 씨에게, 낯선 사람들이 손을 내밀었다", "why": "한 사람의 작은 관심이 수천 명의 친절로 번졌습니다. 누군가의 반평생을 세상이 알아봐 준 순간입니다.", "quote": "비관론자가 별의 비밀을 밝혀내거나, 지도에 없는 땅으로 항해한 적은 한 번도 없다.", "who": "헬렌 켈러, 『낙관주의』(1903)"}</script>
+<script src="/assets/app.js"></script>
 </body>
 </html>

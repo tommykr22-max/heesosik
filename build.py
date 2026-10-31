@@ -1,0 +1,276 @@
+#!/usr/bin/env python3
+"""희소식 사이트 빌드: issues/N.json → index.html, issues/N.html, archive.html, sitemap.xml
+
+사용법: python3 build.py
+새 호를 내려면 issues/ 에 다음 번호의 JSON 파일을 추가하고 다시 실행하면 된다.
+"""
+import json, glob, os, html, datetime, sys
+
+SITE = "https://heesosik.news"
+ROOT = os.path.dirname(os.path.abspath(__file__))
+DAYS = ["월", "화", "수", "목", "금", "토", "일"]
+CATS = {
+    "people": ("사람", "var(--c-people)", "linear-gradient(135deg,#FFE0BC,#FFF6EA)"),
+    "animal": ("동물", "var(--c-animal)", "linear-gradient(135deg,#F2DCC2,#FBF3EA)"),
+    "health": ("건강", "var(--c-health)", "linear-gradient(135deg,#FFD0DA,#FFF0F3)"),
+    "sci":    ("과학", "var(--c-sci)",    "linear-gradient(135deg,#BFE3F2,#E8F6FB)"),
+    "earth":  ("지구", "var(--c-earth)",  "linear-gradient(135deg,#C7EBCF,#EFFAEF)"),
+    "space":  ("우주", "var(--c-space)",  "linear-gradient(135deg,#D9CCF5,#F3EEFD)"),
+}
+STORY_KEYS = ["id", "cat", "emoji", "where", "title", "body", "why", "quote", "who", "src", "url"]
+e = lambda s: html.escape(str(s), quote=True)
+
+
+def kdate(d):
+    dt = datetime.date.fromisoformat(d)
+    return f"{dt.year}년 {dt.month}월 {dt.day}일 {DAYS[dt.weekday()]}요일"
+
+
+def validate(iss, path):
+    errs = []
+    for k in ["no", "date", "daily_quote", "numbers", "feature", "stories"]:
+        if k not in iss:
+            errs.append(f"missing {k}")
+    for s in [iss.get("feature", {})] + iss.get("stories", []):
+        for k in STORY_KEYS:
+            if not s.get(k):
+                errs.append(f"story {s.get('id')}: missing {k}")
+        if s.get("cat") not in CATS:
+            errs.append(f"story {s.get('id')}: bad cat {s.get('cat')}")
+        if not str(s.get("url", "")).startswith("http"):
+            errs.append(f"story {s.get('id')}: bad url")
+    if len(iss.get("numbers", [])) != 3:
+        errs.append("numbers must have 3 items")
+    if errs:
+        sys.exit(f"{path}: " + "; ".join(errs))
+
+
+def head(title, desc, canonical):
+    return f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{e(title)}</title>
+<meta name="description" content="{e(desc)}">
+<link rel="canonical" href="{canonical}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="희소식">
+<meta property="og:title" content="{e(title)}">
+<meta property="og:description" content="{e(desc)}">
+<meta property="og:url" content="{canonical}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23F7B32B'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+"""
+
+
+FOOTER = """<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo"><i></i>희소식</div>
+      지칠 때 열어 보는 좋은 소식.<br>
+      모든 기사는 원문을 바탕으로 희소식이 직접 요약해 쓴 글이며, 원문 출처를 함께 밝힙니다.<br>
+      <a href="/archive.html">지난 호 모아 보기</a>
+    </div>
+    <div>
+      <h4>편집 원칙</h4>
+      검증된 매체의 보도만 다룹니다 · 정치적 편 가르기를 하지 않습니다 · 좋은 소식이라도 과장하지 않습니다
+    </div>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+"""
+
+
+def story_card(s):
+    name, color, bg = CATS[s["cat"]]
+    return f"""<article class="card" data-cat="{e(s['cat'])}">
+  <div class="band" style="background:{bg}"><span class="flag">{e(s['where'])}</span>{e(s['emoji'])}</div>
+  <div class="body"><span class="tag" style="background:{color}">{name}</span>
+    <h3>{e(s['title'])}</h3><p>{e(s['body'])}</p>
+    <div class="why"><b>왜 희소식일까?</b> {e(s['why'])}</div>
+    <div class="quote">{e(s['quote'])}<cite>— {e(s['who'])}</cite></div>
+    <div class="foot"><a href="{e(s['url'])}" target="_blank" rel="noopener">출처: {e(s['src'])} ↗</a>
+      <div class="acts"><button class="btn-ic like" data-id="{e(s['id'])}">♡ <span>0</span></button><button class="btn-ic share" data-t="{e(s['title'])}">공유</button></div></div>
+  </div>
+</article>"""
+
+
+def issue_page(iss, prev_no, next_no, is_home):
+    f = iss["feature"]
+    fname, fcolor, fbg = CATS[f["cat"]]
+    no, date = iss["no"], iss["date"]
+    canonical = SITE + "/" if is_home else f"{SITE}/issues/{no}.html"
+    title = f"희소식 제{no}호 — {f['title']}"
+    if is_home:
+        title = "희소식 — 지칠 때 열어 보는 좋은 소식"
+    desc = f"{kdate(date)} 희소식: " + " · ".join([f["title"]] + [s["title"] for s in iss["stories"][:2]])
+    q = iss["daily_quote"]
+    nums = "".join(f'<div class="num"><b>{e(n["big"])}</b><span>{e(n["label"])}</span></div>' for n in iss["numbers"])
+    cats_present = []
+    for s in iss["stories"]:
+        if s["cat"] not in cats_present:
+            cats_present.append(s["cat"])
+    chips = '<button class="chip on" data-cat="all">전체</button>' + "".join(
+        f'<button class="chip" data-cat="{c}">{CATS[c][0]}</button>' for c in cats_present)
+    editor = ""
+    if iss.get("editor_note"):
+        editor = f'<section class="editor"><div class="av">✍️</div><div><b>편집장 한마디</b><p>{e(iss["editor_note"])}</p></div></section>'
+    pager = '<nav class="pager">' + (
+        f'<a class="prev" href="/issues/{prev_no}.html">← 제{prev_no}호</a>' if prev_no else "<span></span>") + (
+        f'<a class="next" href="/issues/{next_no}.html">제{next_no}호 →</a>' if next_no else (
+            '<a class="next" href="/archive.html">지난 호 모아 보기 →</a>')) + "</nav>"
+    card_data = {"no": no, "date": kdate(date), "title": f["title"], "why": f["why"],
+                 "quote": q["text"], "who": q["who"]}
+    return head(title, desc, canonical) + f"""
+<header class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="topbar">
+    <a class="logo" href="/" style="text-decoration:none"><i></i>희소식</a>
+    <div class="issue"><a href="/archive.html">제{no}호</a></div>
+  </div>
+  <div class="hero-inner">
+    <div class="kicker">GOOD NEWS · DAILY</div>
+    <h1>세상은 생각보다<br><em>괜찮습니다</em></h1>
+    <p class="lead">나쁜 뉴스에 지친 당신을 위해, 전 세계의 좋은 소식만 골라 매일 한국어로 전합니다. 지칠 때 언제든 열어 보세요.</p>
+    <div class="date">{kdate(date)} · 제{no}호</div>
+    <a href="#today-news" class="cta">오늘의 희소식 보기 ↓</a>
+  </div>
+  <div class="sun"></div>
+  <div class="horizon"></div>
+</header>
+
+<main class="wrap">
+  <section class="numbers" aria-label="숫자로 보는 오늘">{nums}</section>
+  {editor}
+  <section class="daily">
+    <div class="lbl">오늘의 한 줄</div>
+    <blockquote>{e(q['text'])}</blockquote>
+    <cite>— {e(q['who'])}</cite>
+  </section>
+
+  <div class="sec-head" id="today-news">
+    <h2>오늘의 머리기사<small>지금 가장 마음을 밝혀 주는 소식</small></h2>
+  </div>
+  <article class="feature">
+    <div class="art" style="background:{fbg}" aria-hidden="true"><span class="flag">{e(f['where'])}</span>{e(f['emoji'])}</div>
+    <div class="body">
+      <span class="tag" style="background:{fcolor}">{fname}</span>
+      <h3>{e(f['title'])}</h3>
+      <p>{e(f['body'])}</p>
+      <div class="why"><b>왜 희소식일까?</b> {e(f['why'])}</div>
+      <div class="quote">{e(f['quote'])}<cite>— {e(f['who'])}</cite></div>
+      <div class="foot">
+        <a href="{e(f['url'])}" target="_blank" rel="noopener">출처: {e(f['src'])} ↗</a>
+        <div class="acts"><button class="btn-ic like" data-id="{e(f['id'])}">♡ <span>0</span></button><button class="btn-ic share" data-t="{e(f['title'])}">공유</button></div>
+      </div>
+    </div>
+  </article>
+
+  <div class="sharecard">
+    <button id="saveCard">💬 오늘의 희소식 이미지 저장</button>
+    <small>단톡방에 좋은 소식 한 장 보내 보세요</small>
+  </div>
+
+  <div class="ad">광고 영역 · 애드센스 승인 후 노출됩니다</div>
+
+  <div class="sec-head">
+    <h2>세계 곳곳의 희소식<small>분야별로 골라 읽으세요</small></h2>
+    <div class="chips" id="chips">{chips}</div>
+  </div>
+  <section class="grid" id="grid">
+{chr(10).join(story_card(s) for s in iss['stories'])}
+  </section>
+
+  {pager}
+
+  <section class="sponsor">
+    <div>
+      <h3>오늘의 희소식을<br>함께 전할 파트너를 찾습니다</h3>
+      <p>좋은 소식 옆에 좋은 브랜드가 있어야 합니다. 희소식은 세상을 낫게 만드는 기업과 단체의 후원으로 운영됩니다.</p>
+    </div>
+    <div class="box">
+      <ul>
+        <li>하루 한 곳, 머리기사 후원 표기</li>
+        <li>뉴스레터 상단 ‘오늘의 후원’ 소개</li>
+        <li>지난 호 보관함 상단 배너</li>
+      </ul>
+      <div class="contact">후원·제휴 문의: 준비 중</div>
+    </div>
+  </section>
+
+  <section class="news">
+    <h3>하루 한 통, 희소식</h3>
+    <p>틈날 때 4분이면 충분합니다. 무료로 받아 보세요.</p>
+    <form id="nl"><input type="email" placeholder="이메일 주소" required aria-label="이메일"><button>구독하기</button></form>
+    <div class="msg" id="nlmsg"></div>
+  </section>
+</main>
+{FOOTER}
+<canvas id="cv" width="1080" height="1350" style="display:none"></canvas>
+<script id="card-data" type="application/json">{json.dumps(card_data, ensure_ascii=False).replace('</', '<\\/')}</script>
+<script src="/assets/app.js"></script>
+</body>
+</html>
+"""
+
+
+def archive_page(issues):
+    rows = "\n".join(
+        f'<li><a href="/issues/{i["no"]}.html"><span class="no">제{i["no"]}호</span>'
+        f'<span class="t">{e(i["feature"]["title"])}</span><span class="d">{e(i["date"])}</span></a></li>'
+        for i in sorted(issues, key=lambda x: -x["no"]))
+    return head("희소식 — 지난 호 모아 보기", "희소식이 지금까지 전한 좋은 소식들", SITE + "/archive.html") + f"""
+<header class="sub-hero">
+  <div class="topbar"><a class="logo" href="/" style="text-decoration:none"><i></i>희소식</a></div>
+  <h1>지난 호 모아 보기</h1>
+  <p>지금까지 전한 좋은 소식 {len(issues)}호</p>
+</header>
+<main class="wrap"><ul class="arch">
+{rows}
+</ul></main>
+{FOOTER}
+<script src="/assets/app.js"></script>
+</body></html>
+"""
+
+
+def main():
+    paths = sorted(glob.glob(os.path.join(ROOT, "issues", "*.json")), key=lambda p: int(os.path.basename(p)[:-5]))
+    issues = []
+    for p in paths:
+        iss = json.load(open(p, encoding="utf-8"))
+        validate(iss, p)
+        if iss["no"] != int(os.path.basename(p)[:-5]):
+            sys.exit(f"{p}: no field does not match filename")
+        issues.append(iss)
+    if not issues:
+        sys.exit("no issues")
+    nos = [i["no"] for i in issues]
+    if nos != list(range(1, len(nos) + 1)):
+        sys.exit(f"issue numbers must be 1..N without gaps: {nos}")
+    for idx, iss in enumerate(issues):
+        prev_no = issues[idx - 1]["no"] if idx > 0 else None
+        next_no = issues[idx + 1]["no"] if idx + 1 < len(issues) else None
+        open(os.path.join(ROOT, "issues", f"{iss['no']}.html"), "w", encoding="utf-8").write(
+            issue_page(iss, prev_no, next_no, False))
+    latest = issues[-1]
+    open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(
+        issue_page(latest, issues[-2]["no"] if len(issues) > 1 else None, None, True))
+    open(os.path.join(ROOT, "archive.html"), "w", encoding="utf-8").write(archive_page(issues))
+    urls = [(SITE + "/", latest["date"]), (SITE + "/archive.html", latest["date"])] + [
+        (f"{SITE}/issues/{i['no']}.html", i["date"]) for i in issues]
+    sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
+        f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>\n" for u, d in urls) + "</urlset>\n"
+    open(os.path.join(ROOT, "sitemap.xml"), "w").write(sm)
+    open(os.path.join(ROOT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
+    print(f"built {len(issues)} issue(s); latest = 제{latest['no']}호 ({latest['date']})")
+
+
+if __name__ == "__main__":
+    main()
