@@ -54,6 +54,7 @@ def head(title, desc, canonical):
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{canonical}">
+<meta name="naver-site-verification" content="e266edb50e648d63de5fa33eac142656ee8fe846">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="희소식">
 <meta property="og:title" content="{e(title)}">
