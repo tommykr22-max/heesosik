@@ -106,8 +106,10 @@
     return lines;
   }
 
-  function draw() {
-    var cv = document.getElementById('cv'), ctx = cv.getContext('2d'), W = 1080, H = 1350, P = 90;
+  function draw(H) {
+    H = H || 1350;
+    var cv = document.getElementById('cv'); cv.width = 1080; cv.height = H;
+    var ctx = cv.getContext('2d'), W = 1080, P = 90, TALL = H > 1500;
     var g = ctx.createLinearGradient(0, 0, 0, H);
     g.addColorStop(0, '#0E1330'); g.addColorStop(0.45, '#1B1F4B'); g.addColorStop(0.72, '#5B2A5E');
     g.addColorStop(0.9, '#C2464A'); g.addColorStop(1, '#FF6B35');
@@ -116,9 +118,10 @@
       ctx.fillStyle = 'rgba(255,255,255,' + (0.2 + Math.random() * 0.6) + ')';
       ctx.beginPath(); ctx.arc(Math.random() * W, Math.random() * H * 0.55, Math.random() * 2 + 0.6, 0, 7); ctx.fill();
     }
-    var sg = ctx.createRadialGradient(W / 2, H + 60, 10, W / 2, H + 60, 420);
+    var SR = TALL ? 560 : 420;
+    var sg = ctx.createRadialGradient(W / 2, H + 60, 10, W / 2, H + 60, SR);
     sg.addColorStop(0, '#FFF4D6'); sg.addColorStop(0.35, '#FFD36B'); sg.addColorStop(0.6, 'rgba(247,179,43,.9)'); sg.addColorStop(1, 'rgba(255,107,53,0)');
-    ctx.fillStyle = sg; ctx.fillRect(0, H - 420, W, 420);
+    ctx.fillStyle = sg; ctx.fillRect(0, H - SR, W, SR);
 
     // 상단 로고
     ctx.fillStyle = '#F7B32B'; ctx.beginPath(); ctx.arc(P + 14, P + 4, 14, 0, 7); ctx.fill();
@@ -126,12 +129,14 @@
     ctx.fillText('희소식', P + 42, P + 6);
     ctx.font = '500 28px "Noto Sans KR", sans-serif'; ctx.textAlign = 'right'; ctx.globalAlpha = .8;
     ctx.fillText('제' + D.no + '호 · ' + D.date, W - P, P + 6); ctx.globalAlpha = 1; ctx.textAlign = 'left';
+    if (TALL) ctx.translate(0, 240);
 
-    var y = 250;
+    var y = TALL ? 360 : 250;
     ctx.fillStyle = '#F7B32B'; ctx.font = '700 30px "Noto Sans KR", sans-serif'; ctx.fillText('오늘의 희소식', P, y);
     y += 70;
-    ctx.fillStyle = '#fff'; ctx.font = '900 64px "Noto Serif KR", serif'; ctx.textBaseline = 'top';
-    wrap(ctx, D.title, W - P * 2).slice(0, 4).forEach(function (l) { ctx.fillText(l, P, y); y += 88; });
+    var TS = TALL ? 76 : 64;
+    ctx.fillStyle = '#fff'; ctx.font = '900 ' + TS + 'px "Noto Serif KR", serif'; ctx.textBaseline = 'top';
+    wrap(ctx, D.title, W - P * 2).slice(0, 4).forEach(function (l) { ctx.fillText(l, P, y); y += TS * 1.38; });
     y += 20;
     ctx.font = '400 34px "Noto Sans KR", sans-serif'; ctx.globalAlpha = .88;
     wrap(ctx, D.why, W - P * 2).slice(0, 3).forEach(function (l) { ctx.fillText(l, P, y); y += 52; });
@@ -143,6 +148,7 @@
     ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '400 28px "Noto Sans KR", sans-serif';
     ctx.fillText('— ' + D.who, P, y + 8);
 
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.textAlign = 'center'; ctx.fillStyle = '#1C1A17'; ctx.font = '700 34px "Noto Sans KR", sans-serif';
     ctx.textBaseline = 'alphabetic';
     ctx.fillText('heesosik.news', W / 2, H - 70);
@@ -183,16 +189,19 @@
     });
   }
 
-  btn.addEventListener('click', function () {
+  function make(H) {
     var fonts = document.fonts ? Promise.all([
       document.fonts.load('900 64px "Noto Serif KR"'), document.fonts.load('700 40px "Noto Serif KR"'),
       document.fonts.load('400 34px "Noto Sans KR"'), document.fonts.load('700 34px "Noto Sans KR"')
     ]) : Promise.resolve();
     fonts.catch(function () {}).then(function () {
-      var cv = draw(), url = cv.toDataURL('image/png');
+      var cv = draw(H), url = cv.toDataURL('image/png');
       if (cv.toBlob) cv.toBlob(function (blob) { showSheet(url, blob); }, 'image/png');
       else showSheet(url, null);
     });
-  });
+  }
+  btn.addEventListener('click', function () { make(1350); });
+  var st2 = document.getElementById('saveStory');
+  if (st2) st2.addEventListener('click', function () { make(1920); });
   window.__drawCard = draw;
 })();
