@@ -172,3 +172,17 @@
   .card:target,.feature:target,.card.flash,.feature.flash{animation:flash 1.8s ease}
   @keyframes flash{0%,100%{box-shadow:0 6px 20px rgba(28,26,23,.06)}20%,60%{box-shadow:0 0 0 4px var(--gold),0 16px 36px rgba(247,179,43,.35)}}
   @media (max-width:600px){.num .go{font-size:11px;padding:2px 8px}}
+
+  /* 이미지 저장 창 */
+  .sheet{position:fixed;inset:0;z-index:100;background:rgba(14,19,48,.82);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+  .sheet-box{position:relative;background:#fff;border-radius:20px;padding:18px 16px 16px;max-width:420px;width:100%;text-align:center;max-height:96vh;overflow:auto}
+  .sheet-box img{width:100%;max-width:340px;border-radius:12px;display:block;margin:10px auto 0;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
+  .sheet-tip{font-size:15px;font-weight:500;padding-right:28px}
+  .sheet-tip b{color:var(--dawn)}
+  .sheet-x{position:absolute;top:10px;right:12px;border:0;background:#F2EEE8;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer}
+  .sheet-btns{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+  .sb{display:block;border:0;border-radius:99px;padding:13px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none}
+  .sb.share{background:#FEE500;color:#3A1D1D}
+  .sb.dl{background:var(--ink);color:#fff}
+  .sb.ext{background:#FEE500;color:#3A1D1D}
+  .sheet-note{margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.6}

@@ -151,24 +151,47 @@
     return cv;
   }
 
+  var UA = navigator.userAgent || '';
+  var IN_APP = /KAKAOTALK|Instagram|FBAN|FBAV|NAVER|Line\/|DaumApps|everytimeApp|BAND/i.test(UA);
+  var IS_KAKAO = /KAKAOTALK/i.test(UA);
+
+  // 이미지 미리보기 창: 어느 앱 안 브라우저에서도 '길게 눌러 저장'은 된다
+  function showSheet(dataUrl, blob) {
+    var old = document.getElementById('imgSheet'); if (old) old.remove();
+    var file = blob ? new File([blob], 'heesosik-' + D.no + '.png', { type: 'image/png' }) : null;
+    var canShareFile = !IN_APP && file && navigator.canShare && navigator.canShare({ files: [file] });
+    var wrap = document.createElement('div'); wrap.id = 'imgSheet'; wrap.className = 'sheet';
+    wrap.innerHTML =
+      '<div class="sheet-box" role="dialog" aria-label="오늘의 희소식 이미지">' +
+      '<button class="sheet-x" aria-label="닫기">✕</button>' +
+      '<p class="sheet-tip">👇 이미지를 <b>길게 눌러</b> 저장하거나 공유하세요</p>' +
+      '<img src="' + dataUrl + '" alt="희소식 제' + D.no + '호 이미지">' +
+      '<div class="sheet-btns">' +
+      (canShareFile ? '<button class="sb share">📤 바로 공유하기</button>' : '') +
+      (!IN_APP ? '<a class="sb dl" href="' + dataUrl + '" download="heesosik-' + D.no + '.png">⬇️ 이미지 다운로드</a>' : '') +
+      (IS_KAKAO ? '<a class="sb ext" href="kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href.split('#')[0]) + '">🌐 크롬·사파리로 열기</a>' : '') +
+      '</div>' +
+      (IN_APP ? '<p class="sheet-note">카카오톡·인스타 안에서 열면 저장 버튼이 막힐 수 있어요. 이미지를 길게 누르거나, 위 버튼으로 기본 브라우저에서 열어 주세요.</p>' : '') +
+      '</div>';
+    document.body.appendChild(wrap);
+    function close() { wrap.remove(); }
+    wrap.addEventListener('click', function (ev) { if (ev.target === wrap) close(); });
+    wrap.querySelector('.sheet-x').addEventListener('click', close);
+    var sh = wrap.querySelector('.share');
+    if (sh) sh.addEventListener('click', function () {
+      navigator.share({ files: [file], title: '희소식 제' + D.no + '호', text: '희소식 · heesosik.news' }).catch(function () {});
+    });
+  }
+
   btn.addEventListener('click', function () {
     var fonts = document.fonts ? Promise.all([
       document.fonts.load('900 64px "Noto Serif KR"'), document.fonts.load('700 40px "Noto Serif KR"'),
       document.fonts.load('400 34px "Noto Sans KR"'), document.fonts.load('700 34px "Noto Sans KR"')
     ]) : Promise.resolve();
     fonts.catch(function () {}).then(function () {
-      var cv = draw();
-      cv.toBlob(function (blob) {
-        var file = new File([blob], 'heesosik-' + D.no + '.png', { type: 'image/png' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          navigator.share({ files: [file], title: '희소식 제' + D.no + '호' }).catch(function () {});
-          return;
-        }
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(blob); a.download = file.name;
-        document.body.appendChild(a); a.click(); a.remove();
-        toast('이미지를 저장했어요');
-      }, 'image/png');
+      var cv = draw(), url = cv.toDataURL('image/png');
+      if (cv.toBlob) cv.toBlob(function (blob) { showSheet(url, blob); }, 'image/png');
+      else showSheet(url, null);
     });
   });
   window.__drawCard = draw;
