@@ -190,3 +190,9 @@
   .sharecard button+button{margin-left:8px}
   .sharecard button.story{background:linear-gradient(135deg,#F58529,#DD2A7B 55%,#8134AF);color:#fff}
   @media (max-width:420px){.sharecard button{display:block;width:100%;margin:0 0 8px!important}}
+
+  .news.kakao{background:linear-gradient(180deg,#FFF9C4,#FEE500)}
+  .news.kakao p{color:#5a4a00}
+  .kbtn{display:inline-block;margin-top:20px;background:#3A1D1D;color:#FEE500;font-weight:700;font-size:17px;padding:16px 30px;border-radius:99px;text-decoration:none;box-shadow:0 8px 20px rgba(58,29,29,.25)}
+  .kbtn:active{transform:scale(.97)}
+  .kmini{display:inline-block;margin-top:12px;font-size:14px;font-weight:700;color:#3A1D1D;background:#FEE500;padding:8px 16px;border-radius:99px;text-decoration:none}

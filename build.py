@@ -80,7 +80,7 @@ FOOTER = """<footer>
       <div class="logo"><i></i>희소식</div>
       지칠 때 열어 보는 좋은 소식.<br>
       모든 기사는 원문을 바탕으로 희소식이 직접 요약해 쓴 글이며, 원문 출처를 함께 밝힙니다.<br>
-      <a href="/archive.html">지난 호 모아 보기</a>
+      <a href="/archive.html">지난 호 모아 보기</a> · <a href="https://pf.kakao.com/_ZXUWX" target="_blank" rel="noopener">카카오톡 채널 「희소식」</a>
     </div>
     <div>
       <h4>편집 원칙</h4>
@@ -193,6 +193,7 @@ def issue_page(iss, prev_no, next_no, is_home):
     <button id="saveCard">💬 카톡용 이미지 저장</button>
     <button id="saveStory" class="story">📸 인스타 스토리용</button>
     <small>단톡방·스토리에 좋은 소식 한 장 보내 보세요</small>
+    <a class="kmini" href="https://pf.kakao.com/_ZXUWX/friend" target="_blank" rel="noopener">💛 카톡 채널로 매일 받기</a>
   </div>
 
   <div class="ad">광고 영역 · 애드센스 승인 후 노출됩니다</div>
@@ -222,11 +223,10 @@ def issue_page(iss, prev_no, next_no, is_home):
     </div>
   </section>
 
-  <section class="news">
-    <h3>하루 한 통, 희소식</h3>
-    <p>틈날 때 4분이면 충분합니다. 무료로 받아 보세요.</p>
-    <form id="nl"><input type="email" placeholder="이메일 주소" required aria-label="이메일"><button>구독하기</button></form>
-    <div class="msg" id="nlmsg"></div>
+  <section class="news kakao">
+    <h3>카카오톡으로 매일 받아 보세요</h3>
+    <p>채널을 추가하면 새 희소식이 나올 때마다 카톡으로 만나요.</p>
+    <a class="kbtn" href="https://pf.kakao.com/_ZXUWX/friend" target="_blank" rel="noopener">💛 카카오톡 채널 추가하기</a>
   </section>
 </main>
 {FOOTER}
