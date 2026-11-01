@@ -196,3 +196,16 @@
   .kbtn{display:inline-block;margin-top:20px;background:#3A1D1D;color:#FEE500;font-weight:700;font-size:17px;padding:16px 30px;border-radius:99px;text-decoration:none;box-shadow:0 8px 20px rgba(58,29,29,.25)}
   .kbtn:active{transform:scale(.97)}
   .kmini{display:inline-block;margin-top:12px;font-size:14px;font-weight:700;color:#3A1D1D;background:#FEE500;padding:8px 16px;border-radius:99px;text-decoration:none}
+
+  .tb-r{display:flex;align-items:center;gap:10px}
+  .tb-link{font-size:13px;color:#fff;opacity:.85;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4)}
+  .letter{max-width:680px;margin:48px auto 0;background:#fff;border-radius:24px;padding:40px 36px;box-shadow:0 12px 32px rgba(28,26,23,.06);font-family:'Noto Serif KR',serif;font-size:18px;line-height:1.95}
+  .letter p+p{margin-top:20px}
+  .letter .sign{text-align:right;font-weight:700;color:var(--dawn);margin-top:32px}
+  .principles{max-width:680px;margin:40px auto 72px}
+  .principles h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:22px;margin-bottom:14px}
+  .principles li{list-style:none;padding:10px 0 10px 26px;position:relative;border-bottom:1px dashed var(--line)}
+  .principles li::before{content:'☀';position:absolute;left:0;color:var(--gold)}
+  .principles .links{margin-top:20px;font-size:14px}
+  .principles .links a{color:var(--dawn)}
+  @media (max-width:600px){.letter{padding:28px 22px;font-size:17px;margin-top:28px}}

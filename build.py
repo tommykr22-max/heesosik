@@ -80,7 +80,7 @@ FOOTER = """<footer>
       <div class="logo"><i></i>희소식</div>
       지칠 때 열어 보는 좋은 소식.<br>
       모든 기사는 원문을 바탕으로 희소식이 직접 요약해 쓴 글이며, 원문 출처를 함께 밝힙니다.<br>
-      <a href="/archive.html">지난 호 모아 보기</a> · <a href="https://pf.kakao.com/_ZXUWX" target="_blank" rel="noopener">카카오톡 채널 「희소식」</a>
+      <a href="/about.html">희소식을 시작하며</a> · <a href="/archive.html">지난 호 모아 보기</a> · <a href="https://pf.kakao.com/_ZXUWX" target="_blank" rel="noopener">카카오톡 채널 「희소식」</a>
     </div>
     <div>
       <h4>편집 원칙</h4>
@@ -149,7 +149,7 @@ def issue_page(iss, prev_no, next_no, is_home):
   <div class="stars" id="stars"></div>
   <div class="topbar">
     <a class="logo" href="/" style="text-decoration:none"><i></i>희소식</a>
-    <div class="issue"><a href="/archive.html">제{no}호</a></div>
+    <div class="tb-r"><a class="tb-link" href="/about.html">편집자의 글</a><div class="issue"><a href="/archive.html">제{no}호</a></div></div>
   </div>
   <div class="hero-inner">
     <div class="kicker">GOOD NEWS · DAILY</div>
@@ -258,6 +258,43 @@ def archive_page(issues):
 """
 
 
+ABOUT_PARAS = [
+    "아침에 일어나 거울 앞에 서서 웃음을 한 번 짓는 것만으로도 그날이 즐거울 확률이 높아집니다. 수년 전부터 좋은 소식을 전해, 사람들의 마음이 아주 조금이라도 편해지기를 기대해 왔습니다. 자그마한 소식이라도 즐겁게 봐 주시면 감사하겠습니다.",
+    "사람들은 모두 지쳐 가고 있습니다. 온갖 미디어는 자극적이고 폭력적인 뉴스를 위주로 다루고, 그런 뉴스가 사람들의 이목을 끕니다. 사실 우리는 스스로 점점 부정적으로 변해 가고 있다는 것도 모른 채, 그저 안 좋은 소식에 노출되고 있습니다. 삶에 지친 분들이 다시 힘을 낼 수 있도록 돕고 싶습니다.",
+    "그래서 희소식은 주로 감동적인 이야기를 다루려고 노력합니다. 힘들게 삶을 이어 가는 사람들을 돕는 이야기, 아직은 착하게 사는 것이 삶에 도움이 된다는 소식을 전하고자 합니다.",
+    "희소식을 읽으시면서 단 0.1%라도 마음에 작은 변화가 일어나기를 바라 봅니다.",
+]
+
+
+def about_page():
+    paras = "\n".join(f"<p>{e(x)}</p>" for x in ABOUT_PARAS)
+    return head("희소식을 시작하며 — 편집자의 글", "희소식은 왜 좋은 소식만 전할까요. 편집자가 직접 쓴 창간의 글.", SITE + "/about.html") + f"""
+<header class="sub-hero">
+  <div class="topbar"><a class="logo" href="/" style="text-decoration:none"><i></i>희소식</a></div>
+  <h1>희소식을 시작하며</h1>
+  <p>편집자의 글</p>
+</header>
+<main class="wrap"><article class="letter">
+{paras}
+<p class="sign">— 희소식 편집자</p>
+</article>
+<section class="principles">
+  <h2>희소식이 소식을 고르는 방법</h2>
+  <ul>
+    <li><b>사람 냄새 나는 이야기</b>를 먼저 고릅니다. 이웃을 돕는 사람, 묵묵히 제 몫을 다하는 사람, 사람과 동물의 우정.</li>
+    <li><b>검증된 매체의 보도</b>만 다루고, 모든 소식에 원문 출처를 밝힙니다.</li>
+    <li>원문을 옮기지 않고 <b>직접 요약</b>합니다. 좋은 소식이라도 과장하지 않습니다.</li>
+    <li><b>편을 가르는 소식</b>은 다루지 않습니다.</li>
+    <li>소식을 찾고 요약하는 일에는 AI의 도움을 받고, 무엇을 실을지와 방향은 편집자가 정합니다.</li>
+  </ul>
+  <p class="links"><a href="/">오늘의 희소식 보기</a> · <a href="/archive.html">지난 호 모아 보기</a> · <a href="https://pf.kakao.com/_ZXUWX" target="_blank" rel="noopener">카카오톡 채널 추가</a></p>
+</section></main>
+{FOOTER}
+<script src="/assets/app.js"></script>
+</body></html>
+"""
+
+
 def main():
     paths = sorted(glob.glob(os.path.join(ROOT, "issues", "*.json")), key=lambda p: int(os.path.basename(p)[:-5]))
     issues = []
@@ -281,7 +318,8 @@ def main():
     open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(
         issue_page(latest, issues[-2]["no"] if len(issues) > 1 else None, None, True))
     open(os.path.join(ROOT, "archive.html"), "w", encoding="utf-8").write(archive_page(issues))
-    urls = [(SITE + "/", latest["date"]), (SITE + "/archive.html", latest["date"])] + [
+    open(os.path.join(ROOT, "about.html"), "w", encoding="utf-8").write(about_page())
+    urls = [(SITE + "/", latest["date"]), (SITE + "/archive.html", latest["date"]), (SITE + "/about.html", latest["date"])] + [
         (f"{SITE}/issues/{i['no']}.html", i["date"]) for i in issues]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>\n" for u, d in urls) + "</urlset>\n"
