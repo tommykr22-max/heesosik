@@ -80,7 +80,8 @@ FOOTER = """<footer>
       <div class="logo"><i></i>희소식</div>
       지칠 때 열어 보는 좋은 소식.<br>
       모든 기사는 원문을 바탕으로 희소식이 직접 요약해 쓴 글이며, 원문 출처를 함께 밝힙니다.<br>
-      <a href="/about.html">희소식을 시작하며</a> · <a href="/archive.html">지난 호 모아 보기</a> · <a href="https://pf.kakao.com/_ZXUWX" target="_blank" rel="noopener">카카오톡 채널 「희소식」</a>
+      <a href="/about.html">희소식을 시작하며</a> · <a href="/archive.html">지난 호 모아 보기</a> · <a href="https://pf.kakao.com/_ZXUWX" target="_blank" rel="noopener">카카오톡 채널 「희소식」</a><br>
+      <a href="/contact.html">문의</a> · <a href="/privacy.html">개인정보처리방침</a>
     </div>
     <div>
       <h4>편집 원칙</h4>
@@ -295,6 +296,48 @@ def about_page():
 """
 
 
+def simple_page(slug, title, desc, h1, sub, body_html):
+    return head(title, desc, f"{SITE}/{slug}.html") + f"""
+<header class="sub-hero">
+  <div class="topbar"><a class="logo" href="/" style="text-decoration:none"><i></i>희소식</a></div>
+  <h1>{h1}</h1>
+  <p>{sub}</p>
+</header>
+<main class="wrap"><article class="letter doc">
+{body_html}
+</article></main>
+{FOOTER}
+<script src="/assets/app.js"></script>
+</body></html>
+"""
+
+
+CONTACT_HTML = """
+<p>희소식에 전하고 싶은 좋은 소식, 기사 내용의 오류 제보, 후원·제휴 문의는 아래로 보내 주세요.</p>
+<h2>카카오톡 채널</h2>
+<p><a href="https://pf.kakao.com/_ZXUWX" target="_blank" rel="noopener">카카오톡 채널 「희소식」</a>을 추가하시면 소식을 받아 보실 수 있고, 채널을 통해 의견을 남기실 수 있습니다.</p>
+<h2>오류 정정 원칙</h2>
+<p>희소식의 모든 기사는 원문 출처를 함께 밝힙니다. 사실과 다른 내용이 확인되면 해당 호의 기사를 바로 고치고, 고친 사실을 숨기지 않습니다.</p>
+<h2>저작권</h2>
+<p>희소식은 원문 기사를 옮기지 않고 직접 요약해 쓰며, 원문 링크를 함께 제공합니다. 원문 기사의 저작권은 각 언론사에 있습니다. 저작권과 관련한 요청은 위 채널로 알려 주시면 신속히 확인하겠습니다.</p>
+"""
+
+PRIVACY_HTML = """
+<p>희소식(heesosik.news, 이하 ‘사이트’)은 이용자의 개인정보를 소중히 여기며, 「개인정보 보호법」 등 관련 법령을 지킵니다.</p>
+<h2>1. 수집하는 개인정보</h2>
+<p>사이트는 회원 가입이나 별도의 개인정보 입력 없이 이용할 수 있으며, 이름·연락처 등 이용자를 식별할 수 있는 정보를 직접 수집하지 않습니다.</p>
+<h2>2. 자동으로 생성되는 정보</h2>
+<p>사이트 운영과 보안을 위해 호스팅 서비스(Netlify)가 접속 기록(IP 주소, 브라우저 종류, 방문 일시 등)을 자동으로 남길 수 있습니다. ‘좋아요’ 표시는 이용자의 브라우저(로컬 저장소)에만 저장되며 사이트 운영자에게 전송되지 않습니다.</p>
+<h2>3. 쿠키와 광고</h2>
+<p>사이트는 Google 애드센스 등 제3자 광고 서비스를 사용할 수 있습니다. Google을 비롯한 제3자 공급업체는 쿠키를 사용해 이용자의 이 사이트 및 다른 사이트 방문 기록을 바탕으로 광고를 게재할 수 있습니다. 이용자는 <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google 광고 설정</a>에서 맞춤 광고를 끌 수 있고, 브라우저 설정에서 쿠키 저장을 거부할 수 있습니다. 자세한 내용은 <a href="https://policies.google.com/technologies/ads?hl=ko" target="_blank" rel="noopener">Google 광고 정책</a>을 참고해 주세요.</p>
+<h2>4. 외부 링크</h2>
+<p>사이트의 기사에는 원문 언론사 등 외부 사이트 링크가 포함됩니다. 외부 사이트의 개인정보 처리는 해당 사이트의 방침을 따릅니다.</p>
+<h2>5. 문의</h2>
+<p>개인정보와 관련한 문의는 <a href="/contact.html">문의 페이지</a>의 안내에 따라 보내 주세요.</p>
+<p class="sign">시행일: 2026년 11월 1일</p>
+"""
+
+
 def main():
     paths = sorted(glob.glob(os.path.join(ROOT, "issues", "*.json")), key=lambda p: int(os.path.basename(p)[:-5]))
     issues = []
@@ -319,7 +362,11 @@ def main():
         issue_page(latest, issues[-2]["no"] if len(issues) > 1 else None, None, True))
     open(os.path.join(ROOT, "archive.html"), "w", encoding="utf-8").write(archive_page(issues))
     open(os.path.join(ROOT, "about.html"), "w", encoding="utf-8").write(about_page())
-    urls = [(SITE + "/", latest["date"]), (SITE + "/archive.html", latest["date"]), (SITE + "/about.html", latest["date"])] + [
+    open(os.path.join(ROOT, "contact.html"), "w", encoding="utf-8").write(simple_page(
+        "contact", "희소식 — 문의", "희소식 제보·정정·제휴 문의 안내", "문의", "좋은 소식 제보와 정정 요청을 기다립니다", CONTACT_HTML))
+    open(os.path.join(ROOT, "privacy.html"), "w", encoding="utf-8").write(simple_page(
+        "privacy", "희소식 — 개인정보처리방침", "희소식 개인정보처리방침", "개인정보처리방침", "희소식은 이용자의 개인정보를 소중히 여깁니다", PRIVACY_HTML))
+    urls = [(SITE + "/", latest["date"]), (SITE + "/archive.html", latest["date"]), (SITE + "/about.html", latest["date"]), (SITE + "/contact.html", latest["date"]), (SITE + "/privacy.html", latest["date"])] + [
         (f"{SITE}/issues/{i['no']}.html", i["date"]) for i in issues]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>\n" for u, d in urls) + "</urlset>\n"
