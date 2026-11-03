@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://heesosik.news/</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://heesosik.news/archive.html</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://heesosik.news/about.html</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://heesosik.news/contact.html</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://heesosik.news/privacy.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://heesosik.news/</loc><lastmod>2026-11-04</lastmod></url>
+  <url><loc>https://heesosik.news/archive.html</loc><lastmod>2026-11-04</lastmod></url>
+  <url><loc>https://heesosik.news/about.html</loc><lastmod>2026-11-04</lastmod></url>
+  <url><loc>https://heesosik.news/contact.html</loc><lastmod>2026-11-04</lastmod></url>
+  <url><loc>https://heesosik.news/privacy.html</loc><lastmod>2026-11-04</lastmod></url>
   <url><loc>https://heesosik.news/issues/1.html</loc><lastmod>2026-10-31</lastmod></url>
   <url><loc>https://heesosik.news/issues/2.html</loc><lastmod>2026-11-01</lastmod></url>
   <url><loc>https://heesosik.news/issues/3.html</loc><lastmod>2026-11-02</lastmod></url>
   <url><loc>https://heesosik.news/issues/4.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://heesosik.news/issues/5.html</loc><lastmod>2026-11-04</lastmod></url>
 </urlset>
