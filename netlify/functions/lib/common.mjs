@@ -2,6 +2,12 @@
 import { getStore } from "@netlify/blobs";
 import crypto from "node:crypto";
 
+// 환경변수 읽기: Netlify.env(새 함수 런타임)와 process.env 둘 다 본다
+export const env = (k) => {
+  try { const v = globalThis.Netlify?.env?.get?.(k); if (v) return v.trim(); } catch {}
+  return (process.env[k] || "").trim();
+};
+
 export const SITE = (process.env.SITE_URL || "https://heesosik.news").replace(/\/$/, "");
 export const FROM = process.env.MAIL_FROM || "희소식 <news@heesosik.news>";
 
@@ -30,7 +36,7 @@ export const page = (title, msg, status = 200) =>
 
 // Resend로 메일 보내기. list가 2개 이상이면 batch API(한 번에 최대 100통)를 쓴다.
 export async function sendMail(list) {
-  const key = process.env.RESEND_API_KEY;
+  const key = env("RESEND_API_KEY");
   if (!key) throw new Error("RESEND_API_KEY is not set");
   const batch = list.length > 1;
   const res = await fetch(batch ? "https://api.resend.com/emails/batch" : "https://api.resend.com/emails", {

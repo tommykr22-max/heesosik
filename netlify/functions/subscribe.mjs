@@ -1,5 +1,5 @@
 // POST /api/subscribe  {email, agree(동의 체크), website(봇 걸러내기용 빈 칸)}
-import { subs, normEmail, validEmail, hashEmail, newToken, confirmUrl, sendMail, json, FROM, SITE } from "./lib/common.mjs";
+import { subs, normEmail, validEmail, hashEmail, newToken, confirmUrl, sendMail, json, FROM, SITE , env } from "./lib/common.mjs";
 
 export default async (req) => {
   if (req.method !== "POST") return json(405, { ok: false, msg: "잘못된 요청이에요." });
@@ -13,7 +13,7 @@ export default async (req) => {
   const email = normEmail(body.email);
   if (!validEmail(email)) return json(400, { ok: false, msg: "이메일 주소를 다시 확인해 주세요." });
   if (body.agree !== true && body.agree !== "1" && body.agree !== "on") return json(400, { ok: false, msg: "개인정보 수집·이용에 동의해 주세요." });
-  if (!process.env.RESEND_API_KEY) return json(503, { ok: false, msg: "메일 구독은 곧 열립니다. 조금만 기다려 주세요 ☀" });
+  if (!env("RESEND_API_KEY")) return json(503, { ok: false, msg: "메일 구독은 곧 열립니다. 조금만 기다려 주세요 ☀" });
 
   const store = subs();
   const h = hashEmail(email);

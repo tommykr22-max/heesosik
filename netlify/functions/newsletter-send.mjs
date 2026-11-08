@@ -1,6 +1,6 @@
 // 30분마다 실행: 오늘(서울 기준) 새 호가 배포됐고 아직 안 보냈으면 확인된 구독자 전원에게 보낸다.
 // 한 번에 다 못 보내면 어디까지 보냈는지 기록해 두고 다음 실행 때 이어서 보낸다.
-import { subs, state, unsubUrl, sendMail, SITE, FROM } from "./lib/common.mjs";
+import { subs, state, unsubUrl, sendMail, SITE, FROM , env } from "./lib/common.mjs";
 
 const BATCH = 100;          // Resend batch API 한 번에 최대 100통
 const TIME_BUDGET = 20_000; // 예약 함수 제한(30초) 안에서 여유 있게
@@ -39,7 +39,7 @@ async function getMany(store, keys) {
 export async function run({ fetchImpl = fetch, now = Date.now } = {}) {
   const started = now();
   if (process.env.NEWSLETTER_PAUSED === "1") return { skipped: "paused" };
-  if (!process.env.RESEND_API_KEY) return { skipped: "no RESEND_API_KEY" };
+  if (!env("RESEND_API_KEY")) return { skipped: "no RESEND_API_KEY" };
 
   const res = await fetchImpl(`${SITE}/newsletter/latest.json?ts=${started}`);
   if (!res.ok) return { skipped: `latest.json ${res.status}` };
