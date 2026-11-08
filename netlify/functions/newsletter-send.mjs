@@ -5,6 +5,17 @@ import { subs, state, unsubUrl, sendMail, SITE, FROM } from "./lib/common.mjs";
 const BATCH = 100;          // Resend batch API 한 번에 최대 100통
 const TIME_BUDGET = 20_000; // 예약 함수 제한(30초) 안에서 여유 있게
 
+const ADMIN = process.env.ADMIN_EMAIL || "tommykr22@gmail.com"; // 사이트 주인에게 알림
+const WARN_AT = Number(process.env.WARN_SUBSCRIBERS || 80);       // Resend 무료(하루 100통) 한도 경고 기준
+
+async function notifyAdmin(st, flag, subject, text) {
+  if (await st.get(flag)) return;           // 같은 알림은 한 번만
+  try {
+    await sendMail([{ from: FROM, to: [ADMIN], subject: `[희소식 알림] ${subject}`, text }]);
+    await st.setJSON(flag, { at: Date.now() });
+  } catch (err) { console.error("admin notify failed", err); }
+}
+
 const seoulToday = () => new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10);
 
 async function activeList(store) {
@@ -54,7 +65,15 @@ export async function run({ fetchImpl = fetch, now = Date.now } = {}) {
         headers: { "List-Unsubscribe": `<${un}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
       };
     });
-    if (mails.length) await sendMail(mails);
+    if (mails.length) {
+      try { await sendMail(mails); }
+      catch (err) {
+        await notifyAdmin(st, `alert-fail-${nl.no}`, `제${nl.no}호 메일 발송이 멈췄어요`,
+          `제${nl.no}호를 ${s.sent}/${keys.length}명까지 보낸 뒤 발송이 실패했어요. 30분마다 다시 시도합니다.\n\n오류: ${String(err.message || err).slice(0, 300)}\n\n` +
+          `Resend 무료 요금제(하루 100통)를 넘었다면 Resend에서 Pro로 바꿔 주세요: https://resend.com/settings/billing`);
+        throw err;
+      }
+    }
     offset += BATCH;
     s.sent += mails.length;
     await st.setJSON(key, { ...s, offset });
@@ -62,6 +81,11 @@ export async function run({ fetchImpl = fetch, now = Date.now } = {}) {
   }
   const done = offset >= keys.length;
   await st.setJSON(key, { ...s, offset, done, finishedAt: done ? now() : undefined });
+  if (keys.length >= WARN_AT) {
+    await notifyAdmin(st, `alert-warn-${WARN_AT}`, `구독자가 ${keys.length}명이 됐어요 — Resend 요금제를 확인해 주세요`,
+      `희소식 메일 구독자가 ${keys.length}명이 됐어요.\n\nResend 무료 요금제는 하루 100통(구독 확인 메일 포함)까지라, 곧 하루치를 다 못 보낼 수 있어요. ` +
+      `Resend에서 Pro($20/월, 월 5만 통 — 구독자 약 1,600명까지)로 바꿔 주세요: https://resend.com/settings/billing\n\n바꾼 뒤 사이트 쪽은 손댈 게 없습니다.`);
+  }
   console.log(`issue ${nl.no}: sent ${s.sent}/${keys.length}${done ? " (done)" : " (continuing next run)"}`);
   return { no: nl.no, sent: s.sent, total: keys.length, done };
 }

@@ -26,4 +26,5 @@
 - `netlify/functions/newsletter-send.mjs`가 30분마다 돌며, 오늘(서울 기준) 호가 배포됐고 아직 안 보냈으면 확인된 구독자 전원에게 보낸다. 한 호는 한 번만 나간다
 - 수신 거부: 메일 속 링크(`/api/unsubscribe`, 확인 버튼 한 번) 또는 메일 앱의 원클릭 수신 거부
 - 구독자 명단은 Netlify Blobs(`subscribers` 저장소), 발송은 Resend
-- Netlify 환경변수: `RESEND_API_KEY`(필수), `MAIL_FROM`(선택, 기본 `희소식 <news@heesosik.news>`), `NEWSLETTER_PAUSED=1`(발송 일시 중지)
+- Netlify 환경변수: `RESEND_API_KEY`(필수), `MAIL_FROM`(선택, 기본 `희소식 <news@heesosik.news>`), `NEWSLETTER_PAUSED=1`(발송 일시 중지), `ADMIN_EMAIL`(알림 받을 주소, 기본 tommykr22@gmail.com), `WARN_SUBSCRIBERS`(경고 기준 구독자 수, 기본 80)
+- 사이트 주인 알림: 구독자가 기준 수에 닿으면 한 번, 어느 호 발송이 실패하면 그 호마다 한 번 메일로 알린다
