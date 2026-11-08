@@ -214,3 +214,6 @@
   .letter.doc h2{font-family:'Noto Serif KR',serif;font-size:19px;font-weight:900;margin-top:28px}
   .letter.doc h2+p{margin-top:8px}
   .letter.doc a{color:var(--dawn)}
+  .news .nl-agree{display:flex;gap:8px;align-items:flex-start;justify-content:center;max-width:440px;margin:12px auto 0;font-size:12.5px;line-height:1.5;color:#7a5a3a;text-align:left;cursor:pointer}
+  .news .nl-agree input{margin-top:2px;flex:none;accent-color:var(--dawn)}
+  .news .nl-agree a{color:inherit}

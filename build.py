@@ -224,6 +224,18 @@ def issue_page(iss, prev_no, next_no, is_home):
     </div>
   </section>
 
+  <section class="news" id="subscribe">
+    <h3>메일로 매일 받아 보세요</h3>
+    <p>매일 아침, 새 희소식을 메일로 보내 드려요.</p>
+    <form id="nl" autocomplete="on">
+      <input type="email" name="email" placeholder="이메일 주소" required aria-label="이메일 주소">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+      <button type="submit">구독하기</button>
+    </form>
+    <label class="nl-agree"><input type="checkbox" name="agree" value="1" form="nl" required><span>(필수) 메일 주소를 희소식 발송에만 쓰고, 수신 거부 시 바로 지우는 데 동의합니다. <a href="/privacy.html" target="_blank">개인정보처리방침</a></span></label>
+    <div class="msg" id="nlmsg"></div>
+  </section>
+
   <section class="news kakao">
     <h3>카카오톡으로 매일 받아 보세요</h3>
     <p>채널을 추가하면 새 희소식이 나올 때마다 카톡으로 만나요.</p>
@@ -325,8 +337,19 @@ CONTACT_HTML = """
 PRIVACY_HTML = """
 <p>희소식(heesosik.news, 이하 ‘사이트’)은 이용자의 개인정보를 소중히 여기며, 「개인정보 보호법」 등 관련 법령을 지킵니다.</p>
 <h2>1. 수집하는 개인정보</h2>
-<p>사이트는 회원 가입이나 별도의 개인정보 입력 없이 이용할 수 있으며, 이름·연락처 등 이용자를 식별할 수 있는 정보를 직접 수집하지 않습니다.</p>
-<h2>2. 자동으로 생성되는 정보</h2>
+<p>사이트는 회원 가입 없이 이용할 수 있습니다. 다만 <b>메일 구독</b>을 신청하시는 경우에 한해 아래 정보를 받습니다.</p>
+<ul>
+<li><b>항목:</b> 이메일 주소</li>
+<li><b>목적:</b> 새 호 발행 알림 메일, 구독 확인 메일 발송</li>
+<li><b>보유 기간:</b> 수신 거부(구독 해지) 시까지. 해지하시면 바로 지웁니다. 구독 확인을 마치지 않은 신청은 발송 대상에 넣지 않습니다.</li>
+</ul>
+<p>구독 신청 때 동의 체크로 위 내용에 대한 동의를 받습니다. 동의하지 않으셔도 사이트의 모든 글은 그대로 보실 수 있습니다. 모든 메일 아래의 ‘수신 거부’ 링크로 언제든 해지할 수 있습니다.</p>
+<h2>2. 처리 위탁과 국외 이전</h2>
+<p>구독 메일 발송을 위해 아래 업체에 처리를 맡기며, 정보는 해당 업체의 해외 서버에 저장·처리됩니다.</p>
+<ul>
+<li><b>Netlify, Inc.</b>(미국) — 사이트 호스팅, 구독자 명단 저장</li>
+<li><b>Resend</b>(미국) — 메일 발송</li>
+</ul>
 <p>사이트 운영과 보안을 위해 호스팅 서비스(Netlify)가 접속 기록(IP 주소, 브라우저 종류, 방문 일시 등)을 자동으로 남길 수 있습니다. ‘좋아요’ 표시는 이용자의 브라우저(로컬 저장소)에만 저장되며 사이트 운영자에게 전송되지 않습니다.</p>
 <h2>3. 쿠키와 광고</h2>
 <p>사이트는 Google 애드센스 등 제3자 광고 서비스를 사용할 수 있습니다. Google을 비롯한 제3자 공급업체는 쿠키를 사용해 이용자의 이 사이트 및 다른 사이트 방문 기록을 바탕으로 광고를 게재할 수 있습니다. 이용자는 <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google 광고 설정</a>에서 맞춤 광고를 끌 수 있고, 브라우저 설정에서 쿠키 저장을 거부할 수 있습니다. 자세한 내용은 <a href="https://policies.google.com/technologies/ads?hl=ko" target="_blank" rel="noopener">Google 광고 정책</a>을 참고해 주세요.</p>
@@ -334,8 +357,53 @@ PRIVACY_HTML = """
 <p>사이트의 기사에는 원문 언론사 등 외부 사이트 링크가 포함됩니다. 외부 사이트의 개인정보 처리는 해당 사이트의 방침을 따릅니다.</p>
 <h2>5. 문의</h2>
 <p>개인정보와 관련한 문의는 <a href="/contact.html">문의 페이지</a>의 안내에 따라 보내 주세요.</p>
-<p class="sign">시행일: 2026년 11월 1일</p>
+<p class="sign">시행일: 2026년 11월 1일 · 개정: 2026년 11월 8일(메일 구독 추가)</p>
 """
+
+
+def newsletter(iss):
+    """구독 메일 원고: newsletter/latest.json (발송 함수가 읽는다. %%UNSUB%% 자리에 수신 거부 링크가 들어간다)"""
+    no, f, q = iss["no"], iss["feature"], iss["daily_quote"]
+    url = f"{SITE}/issues/{no}.html"
+    dt = datetime.date.fromisoformat(iss["date"])
+    subject = f"☀️ 희소식 제{no}호 · {f['title']}"
+    font = "font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif"
+    items = "".join(
+        f'<tr><td style="padding:14px 0;border-top:1px solid #F3E3D0">'
+        f'<div style="font-size:12px;color:#9a7a5a">{e(s["where"])}</div>'
+        f'<a href="{url}#s-{e(s["id"])}" style="display:block;margin-top:4px;font-size:16px;font-weight:700;color:#2b2118;text-decoration:none">{e(s["emoji"])} {e(s["title"])}</a>'
+        f'<div style="margin-top:4px;font-size:14px;color:#6b5a4a;line-height:1.6">{e(s["why"])}</div></td></tr>'
+        for s in iss["stories"])
+    html_ = f"""<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(subject)}</title></head>
+<body style="margin:0;background:#FFF8EE;word-break:keep-all;{font}">
+<div style="display:none;max-height:0;overflow:hidden">{e(f['why'])}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFF8EE"><tr><td align="center" style="padding:24px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:20px;overflow:hidden">
+<tr><td style="background:#1B1B3A;padding:28px 28px 24px;color:#fff">
+  <div style="font-size:20px;font-weight:800">● 희소식</div>
+  <div style="margin-top:6px;font-size:13px;color:#C9C6E0">제{no}호 · {kdate(iss['date'])}</div>
+  <div style="margin-top:18px;font-size:15px;line-height:1.7;color:#FFE1A8">“{e(q['text'])}”<br><span style="font-size:12px;color:#C9C6E0">— {e(q['who'])}</span></div>
+</td></tr>
+<tr><td style="padding:28px">
+  <div style="font-size:12px;font-weight:700;color:#F08A24">오늘의 머리기사 · {e(f['where'])}</div>
+  <h1 style="margin:8px 0 12px;font-size:22px;line-height:1.45;color:#2b2118">{e(f['emoji'])} {e(f['title'])}</h1>
+  <p style="margin:0;font-size:15px;line-height:1.8;color:#3d3128">{e(f['body'])}</p>
+  <p style="margin:14px 0 0;padding:12px 14px;background:#FFF3E2;border-radius:12px;font-size:14px;line-height:1.7;color:#6b4a2b"><b>왜 희소식일까?</b> {e(f['why'])}</p>
+  <p style="margin:10px 0 0;font-size:12px"><a href="{e(f['url'])}" style="color:#9a7a5a">출처: {e(f['src'])}</a></p>
+  <div style="margin:28px 0 6px;font-size:15px;font-weight:800;color:#2b2118">오늘의 희소식</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{items}</table>
+  <p style="margin:26px 0 4px;text-align:center"><a href="{url}" style="display:inline-block;background:#F08A24;color:#fff;padding:14px 28px;border-radius:99px;text-decoration:none;font-weight:700">사이트에서 전체 읽기</a></p>
+</td></tr>
+<tr><td style="padding:18px 28px 26px;background:#FBF3E8;font-size:12px;line-height:1.7;color:#9a8a7a">
+  희소식 · 지칠 때 열어 보는 좋은 소식 · <a href="{SITE}" style="color:#9a8a7a">heesosik.news</a><br>
+  이 메일은 희소식 메일 구독을 신청하신 분께 보내 드립니다. 더 받지 않으시려면 <a href="%%UNSUB%%" style="color:#9a8a7a">수신 거부</a>를 눌러 주세요.
+</td></tr></table></td></tr></table></body></html>"""
+    text = "\n".join(
+        [f"☀️ 희소식 제{no}호 · {dt.month}월 {dt.day}일 {DAYS[dt.weekday()]}요일", "",
+         f"“{q['text']}” — {q['who']}", "", "[오늘의 머리기사]", f["title"], f["body"], f"왜 희소식일까? {f['why']}", "",
+         "[오늘의 희소식]"] + [f"· {s['title']}" for s in iss["stories"]] +
+        ["", f"전체 읽기: {url}", "", "더 받지 않으시려면: %%UNSUB%%"])
+    return {"no": no, "date": iss["date"], "subject": subject, "url": url, "html": html_, "text": text}
 
 
 def main():
@@ -361,6 +429,10 @@ def main():
     open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(
         issue_page(latest, issues[-2]["no"] if len(issues) > 1 else None, None, True))
     open(os.path.join(ROOT, "archive.html"), "w", encoding="utf-8").write(archive_page(issues))
+    os.makedirs(os.path.join(ROOT, "newsletter"), exist_ok=True)
+    nl = newsletter(latest)
+    json.dump(nl, open(os.path.join(ROOT, "newsletter", "latest.json"), "w", encoding="utf-8"), ensure_ascii=False)
+    open(os.path.join(ROOT, "newsletter", "preview.html"), "w", encoding="utf-8").write(nl["html"].replace("%%UNSUB%%", "#"))
     open(os.path.join(ROOT, "about.html"), "w", encoding="utf-8").write(about_page())
     open(os.path.join(ROOT, "contact.html"), "w", encoding="utf-8").write(simple_page(
         "contact", "희소식 — 문의", "희소식 제보·정정·제휴 문의 안내", "문의", "좋은 소식 제보와 정정 요청을 기다립니다", CONTACT_HTML))

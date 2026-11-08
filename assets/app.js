@@ -75,11 +75,19 @@
     }
   });
 
-  // 뉴스레터 (준비 중)
+  // 메일 구독
   var nl = document.getElementById('nl');
   if (nl) nl.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    document.getElementById('nlmsg').textContent = '뉴스레터는 곧 열립니다. 정식 오픈 때 다시 찾아 주세요 ☀';
+    var msg = document.getElementById('nlmsg'), b = nl.querySelector('button');
+    var fd = new FormData(nl);
+    b.disabled = true; msg.textContent = '보내는 중…';
+    fetch('/api/subscribe', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: fd.get('email'), agree: fd.get('agree') === '1', website: fd.get('website') }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { msg.textContent = d.msg; if (d.ok) nl.reset(); })
+      .catch(function () { msg.textContent = '잠시 뒤 다시 시도해 주세요.'; })
+      .then(function () { b.disabled = false; });
   });
 
   // 카톡 공유용 이미지 카드

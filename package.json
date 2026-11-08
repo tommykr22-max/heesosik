@@ -1,0 +1,9 @@
+{
+  "name": "heesosik",
+  "private": true,
+  "type": "module",
+  "description": "희소식 — 구독 메일 함수(Netlify Functions)",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

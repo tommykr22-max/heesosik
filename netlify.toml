@@ -1,0 +1,8 @@
+# 희소식: 사이트는 build.py로 미리 만든 정적 파일, 구독 메일은 Netlify Functions
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

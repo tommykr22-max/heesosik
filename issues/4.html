@@ -151,6 +151,18 @@
     </div>
   </section>
 
+  <section class="news" id="subscribe">
+    <h3>메일로 매일 받아 보세요</h3>
+    <p>매일 아침, 새 희소식을 메일로 보내 드려요.</p>
+    <form id="nl" autocomplete="on">
+      <input type="email" name="email" placeholder="이메일 주소" required aria-label="이메일 주소">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+      <button type="submit">구독하기</button>
+    </form>
+    <label class="nl-agree"><input type="checkbox" name="agree" value="1" form="nl" required><span>(필수) 메일 주소를 희소식 발송에만 쓰고, 수신 거부 시 바로 지우는 데 동의합니다. <a href="/privacy.html" target="_blank">개인정보처리방침</a></span></label>
+    <div class="msg" id="nlmsg"></div>
+  </section>
+
   <section class="news kakao">
     <h3>카카오톡으로 매일 받아 보세요</h3>
     <p>채널을 추가하면 새 희소식이 나올 때마다 카톡으로 만나요.</p>
