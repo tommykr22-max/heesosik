@@ -107,6 +107,19 @@ def story_card(s):
 </article>"""
 
 
+GREET_HOLDER = "안녕하세요, ○○○입니다. (이 줄을 안부 인사로 바꿔 주세요)"
+
+
+def greet_text(iss):
+    """영업·안부용으로 붙여 보내기 좋은 글 (사이트의 「안부 글로 복사」, 메일 속 링크에서 쓴다)"""
+    no, f, q = iss["no"], iss["feature"], iss["daily_quote"]
+    return "\n".join(
+        [GREET_HOLDER, "", "오늘 아침, 마음이 따뜻해지는 소식 하나 전해 드려요.", "",
+         f"☀️ {f['title']}", f["why"], "", "오늘의 다른 좋은 소식"] +
+        [f"· {s['title']}" for s in iss["stories"]] +
+        ["", f"“{q['text']}” — {q['who']}", "", f"전체 읽기: {SITE}/issues/{no}.html", "(희소식 · 지칠 때 열어 보는 좋은 소식)"])
+
+
 def issue_page(iss, prev_no, next_no, is_home):
     f = iss["feature"]
     fname, fcolor, fbg = CATS[f["cat"]]
@@ -144,7 +157,7 @@ def issue_page(iss, prev_no, next_no, is_home):
         f'<a class="next" href="/issues/{next_no}.html">제{next_no}호 →</a>' if next_no else (
             '<a class="next" href="/archive.html">지난 호 모아 보기 →</a>')) + "</nav>"
     card_data = {"no": no, "date": kdate(date), "title": f["title"], "why": f["why"],
-                 "quote": q["text"], "who": q["who"]}
+                 "quote": q["text"], "who": q["who"], "greet": greet_text(iss), "holder": GREET_HOLDER}
     return head(title, desc, canonical) + f"""
 <header class="hero">
   <div class="stars" id="stars"></div>
@@ -193,7 +206,8 @@ def issue_page(iss, prev_no, next_no, is_home):
   <div class="sharecard">
     <button id="saveCard">💬 카톡용 이미지 저장</button>
     <button id="saveStory" class="story">📸 인스타 스토리용</button>
-    <small>단톡방·스토리에 좋은 소식 한 장 보내 보세요</small>
+    <button id="copyGreet" class="greet">✉️ 안부 글로 복사</button>
+    <small>단톡방·스토리에 좋은 소식 한 장 보내 보세요 · 안부 글은 인사 한 줄만 바꿔 고객·지인께 보내세요</small>
     <a class="kmini" href="https://pf.kakao.com/_ZXUWX/friend" target="_blank" rel="noopener">💛 카톡 채널로 매일 받기</a>
   </div>
 
@@ -393,16 +407,20 @@ def newsletter(iss):
   <div style="margin:28px 0 6px;font-size:15px;font-weight:800;color:#2b2118">오늘의 희소식</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{items}</table>
   <p style="margin:26px 0 4px;text-align:center"><a href="{url}" style="display:inline-block;background:#F08A24;color:#fff;padding:14px 28px;border-radius:99px;text-decoration:none;font-weight:700">사이트에서 전체 읽기</a></p>
+  <p style="margin:14px 0 0;text-align:center;font-size:13px;color:#8a7a6a">고객·지인께 안부와 함께 보내고 싶다면 <a href="{url}#greet" style="color:#F08A24;font-weight:700">안부 글로 복사하기</a></p>
 </td></tr>
 <tr><td style="padding:18px 28px 26px;background:#FBF3E8;font-size:12px;line-height:1.7;color:#9a8a7a">
+  <div style="margin:0 0 14px;padding:14px;background:#fff;border-radius:12px;text-align:center;font-size:14px;color:#3d3128">전달받으셨나요? 매일 아침 좋은 소식을 직접 받아 보세요<br><a href="{SITE}/#subscribe" style="display:inline-block;margin-top:8px;color:#F08A24;font-weight:700;text-decoration:none">☀️ 나도 매일 받아 보기 →</a></div>
   희소식 · 지칠 때 열어 보는 좋은 소식 · <a href="{SITE}" style="color:#9a8a7a">heesosik.news</a><br>
-  이 메일은 희소식 메일 구독을 신청하신 분께 보내 드립니다. 더 받지 않으시려면 <a href="%%UNSUB%%" style="color:#9a8a7a">수신 거부</a>를 눌러 주세요.
+  이 메일은 희소식 메일 구독을 신청하신 분께 보내 드립니다. 다른 분께 전달하셨다면, 아래 수신 거부 링크는 받은 분이 아닌 구독하신 분의 구독을 해지하니 지우고 보내 주세요. 더 받지 않으시려면 <a href="%%UNSUB%%" style="color:#9a8a7a">수신 거부</a>를 눌러 주세요.
 </td></tr></table></td></tr></table></body></html>"""
     text = "\n".join(
         [f"☀️ 희소식 제{no}호 · {dt.month}월 {dt.day}일 {DAYS[dt.weekday()]}요일", "",
          f"“{q['text']}” — {q['who']}", "", "[오늘의 머리기사]", f["title"], f["body"], f"왜 희소식일까? {f['why']}", "",
          "[오늘의 희소식]"] + [f"· {s['title']}" for s in iss["stories"]] +
-        ["", f"전체 읽기: {url}", "", "더 받지 않으시려면: %%UNSUB%%"])
+        ["", f"전체 읽기: {url}", f"안부 글로 복사하기: {url}#greet", "",
+         f"전달받으셨나요? 나도 매일 받아 보기: {SITE}/#subscribe", "",
+         "더 받지 않으시려면(구독하신 분만): %%UNSUB%%"])
     return {"no": no, "date": iss["date"], "subject": subject, "url": url, "html": html_, "text": text}
 
 

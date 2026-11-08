@@ -217,3 +217,6 @@
   .news .nl-agree{display:flex;gap:8px;align-items:flex-start;justify-content:center;max-width:440px;margin:12px auto 0;font-size:12.5px;line-height:1.5;color:#7a5a3a;text-align:left;cursor:pointer}
   .news .nl-agree input{margin-top:2px;flex:none;accent-color:var(--dawn)}
   .news .nl-agree a{color:inherit}
+  .sharecard button.greet{background:#fff;color:#3A1D1D;border:1px solid #EADBC8;margin-top:8px}
+  .greet-box textarea{width:100%;margin-top:12px;padding:12px;border:1px solid #EADBC8;border-radius:12px;font:inherit;font-size:14px;line-height:1.6;resize:vertical;box-sizing:border-box}
+  .sb.copy{background:var(--dawn);color:#fff;border:0}

@@ -212,4 +212,34 @@
   var st2 = document.getElementById('saveStory');
   if (st2) st2.addEventListener('click', function () { make(1920); });
   window.__drawCard = draw;
+
+  // 안부 글로 복사: 인사 한 줄을 바꿔 고객·지인께 보내는 글
+  function openGreet() {
+    if (!D.greet) return;
+    var old = document.getElementById('greetSheet'); if (old) old.remove();
+    var w = document.createElement('div'); w.id = 'greetSheet'; w.className = 'sheet';
+    w.innerHTML = '<div class="sheet-box greet-box" role="dialog" aria-label="안부 글로 복사">' +
+      '<button class="sheet-x" aria-label="닫기">✕</button>' +
+      '<p class="sheet-tip">✉️ <b>첫 줄</b>을 내 인사로 바꾸고 복사해 보내세요</p>' +
+      '<textarea id="greetTxt" rows="14"></textarea>' +
+      '<div class="sheet-btns"><button class="sb copy">📋 복사하기</button>' +
+      (navigator.share ? '<button class="sb share">📤 바로 보내기</button>' : '') + '</div>' +
+      '<p class="sheet-note">카톡·문자·메일 어디에 붙여도 돼요. 출처와 링크는 그대로 남겨 주세요.</p></div>';
+    document.body.appendChild(w);
+    var ta = w.querySelector('#greetTxt'); ta.value = D.greet;
+    ta.focus(); ta.setSelectionRange(0, D.holder.length); ta.scrollTop = 0;
+    function close() { w.remove(); if (location.hash === '#greet') history.replaceState(null, '', location.pathname); }
+    w.addEventListener('click', function (ev) { if (ev.target === w) close(); });
+    w.querySelector('.sheet-x').addEventListener('click', close);
+    w.querySelector('.copy').addEventListener('click', function () {
+      var t = ta.value;
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('복사했어요. 붙여 넣어 보내세요 ☀'); },
+        function () { ta.select(); try { document.execCommand('copy'); toast('복사했어요. 붙여 넣어 보내세요 ☀'); } catch (e) { toast('글을 길게 눌러 복사해 주세요'); } });
+    });
+    var sh = w.querySelector('.share');
+    if (sh) sh.addEventListener('click', function () { navigator.share({ text: ta.value }).catch(function () {}); });
+  }
+  var gb = document.getElementById('copyGreet');
+  if (gb) gb.addEventListener('click', openGreet);
+  if (location.hash === '#greet') setTimeout(openGreet, 300);
 })();
