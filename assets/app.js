@@ -63,7 +63,9 @@
   // 공유
   document.addEventListener('click', function (ev) {
     var b = ev.target.closest('.share'); if (!b) return;
-    var text = '[희소식] ' + b.dataset.t, url = location.href.split('#')[0];
+    var art = b.closest('[id^="s-"]'), base = location.href.split('#')[0];
+    if (/\/(index\.html)?$/.test(location.pathname) && window.__issueNo) base = location.origin + '/issues/' + window.__issueNo + '.html';
+    var text = '[희소식] ' + b.dataset.t, url = base + (art ? '#' + art.id : '');
     if (navigator.share) {
       navigator.share({ title: '희소식', text: text, url: url }).catch(function () {});
       return;
@@ -95,6 +97,7 @@
   var dataEl = document.getElementById('card-data');
   if (!btn || !dataEl) return;
   var D = JSON.parse(dataEl.textContent);
+  window.__issueNo = D.no;
 
   function wrap(ctx, text, maxW) {
     var words = text.split(' '), lines = [], line = '';
